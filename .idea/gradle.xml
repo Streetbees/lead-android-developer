@@ -9,7 +9,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/marvel-api" />
             <option value="$PROJECT_DIR$/marvelcomics" />
           </set>
         </option>

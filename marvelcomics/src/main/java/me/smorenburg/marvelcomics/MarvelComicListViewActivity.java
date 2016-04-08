@@ -6,27 +6,30 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.trey.marvel.model.api.manager.ComicManager;
-import com.trey.marvel.model.api.request.ComicRequest;
-import com.trey.marvel.model.api.request.RequestSignature;
-import com.trey.marvel.model.api.response.ServiceResponse;
-import com.trey.marvel.model.api.vo.Comic;
 
+import com.karumi.marvelapiclient.model.ComicDto;
+import com.karumi.marvelapiclient.model.ComicsDto;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import me.smorenburg.marvelcomics.base.MarverActivityBase;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import me.smorenburg.marvelcomics.adapters.ComicsAdapter;
+import me.smorenburg.marvelcomics.apitaks.GetComicsTask;
+import me.smorenburg.marvelcomics.base.MarvelActivityBase;
+import me.smorenburg.marvelcomics.base.tasks.MarvelApiTaskRequest;
 
-public class MarvelComicListViewActivity extends MarverActivityBase {
+public class MarvelComicListViewActivity extends MarvelActivityBase implements MarvelApiTaskRequest.OnMarvelRequestTaskComplete {
 
     private ListView comicsListView;
     private TextView istViewPlaceHolder;
 
-    private List<Comic> comics = new LinkedList<>();
+    private Map<String, ComicDto> comics = new HashMap<>();
+
     private int lastOffSet = 0;
+    private int offSetIncrement = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,40 +38,32 @@ public class MarvelComicListViewActivity extends MarverActivityBase {
 
         comicsListView = (ListView) findViewById(R.id.comicsListView);
         istViewPlaceHolder = (TextView) findViewById(R.id.listViewPlaceHolder);
-
     }
 
     public void refreshComics(View v) {
-        istViewPlaceHolder.setVisibility(View.VISIBLE);
-        ComicRequest request = new ComicRequest(RequestSignature.create());
-        request.setOffset(lastOffSet);
-        request.setLimit((lastOffSet += lastOffSet + 20));
-        request.setOrderBy(ComicRequest.OrderBy.OnSaleDate);
-        ComicManager comicManager = new ComicManager();
+        GetComicsTask getComicsTask = new GetComicsTask(this);
+        getComicsTask.setOnMarvelRequestTaskComplete(this);
+        getComicsTask.setViewsToLock(findViewById(R.id.testMakeReq));
+        getComicsTask.execute(lastOffSet, (lastOffSet + offSetIncrement));
+        lastOffSet = (lastOffSet + offSetIncrement);
+        Log.i("lastOffSet", " "+lastOffSet);
+    }
 
-        comicManager.listComics(request, new Callback<ServiceResponse<Comic>>() {
-            @Override
-            public void success(ServiceResponse<Comic> comicServiceResponse, Response response) {
-                for (Comic comic : comicServiceResponse.data.results) {
-                    comics.add(comic);
-                    Log.i("Comic", comic.title);
-                    istViewPlaceHolder.append("\n " + comic.title + ",");
-
+    @Override
+    public void getData(Object object, boolean hasFail) {
+        if (hasFail) {
+            Log.i("comics", "failed");
+        } else {
+            if (object instanceof List) {
+                for (ComicDto comicDto : ((List<ComicDto>) object)) {
+                    Log.i("ComicDto", comicDto.toString());
+                    if (!comics.containsKey(comicDto.getId()))
+                        comics.put(comicDto.getId(), comicDto);
                 }
-
-                istViewPlaceHolder.setVisibility(View.GONE);
+                comicsListView.setAdapter(new ComicsAdapter(MarvelComicListViewActivity.this, new LinkedList<>(comics.values())));
+                if (comicsListView.getAdapter().getCount()> 0)
+                    istViewPlaceHolder.setVisibility(View.INVISIBLE);
             }
-
-            @Override
-            public void failure(RetrofitError error) {
-                istViewPlaceHolder.setVisibility(View.VISIBLE);
-                Log.i("Comic", error.getMessage());
-                if (!istViewPlaceHolder.getText().toString().contains(error.getResponse().getReason())) {
-                    istViewPlaceHolder.append("\n " + error.getResponse().getReason() + ",");
-                }
-            }
-        });
-
-        istViewPlaceHolder.setVisibility(View.VISIBLE);
+        }
     }
 }

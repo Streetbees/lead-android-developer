@@ -26,11 +26,11 @@
         <activity
             android:name=".ComicDetailActivity"
             android:label="@string/title_activity_comic_detail"
-            android:parentActivityName=".base.MarverActivityBase"
+            android:parentActivityName=".base.MarvelActivityBase"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="me.smorenburg.marvelcomics.base.MarverActivityBase" />
+                android:value=".base.MarvelActivityBase" />
         </activity>
     </application>
 

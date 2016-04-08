@@ -4,7 +4,11 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
-import com.trey.marvel.model.api.MarvelApi;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+
 
 import io.fabric.sdk.android.Fabric;
 import me.smorenburg.marvelcomics.BuildConfig;
@@ -18,6 +22,7 @@ public class MarvelApplicationBase extends Application {
     public void onCreate() {
         super.onCreate();
         tryRunFabric();
+        initImageLoader(this);
     }
 
     private void tryRunFabric() {
@@ -25,9 +30,20 @@ public class MarvelApplicationBase extends Application {
             Fabric.with(this, new Crashlytics());
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MarvelApi.create(BuildConfig.MARVEL_PRIVATE_KEY, BuildConfig.MARVEL_PUBLIC_KEY, base, 5 * 1024 * 1024);
+    public static void initImageLoader(Context context) {
+        // This configuration tuning is custom. You can tune every option, you may tune some of them,
+        // or you can create default configuration by
+        //  ImageLoaderConfiguration.createDefault(this);
+        // method.
+        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
+        config.threadPriority(Thread.NORM_PRIORITY - 2);
+        config.denyCacheImageMultipleSizesInMemory();
+        config.discCacheFileNameGenerator(new Md5FileNameGenerator());
+        config.discCacheSize(50 * 1024 * 1024); // 50 MiB
+        config.tasksProcessingOrder(QueueProcessingType.LIFO);
+        config.writeDebugLogs(); // Remove for release app
+
+        // Initialize ImageLoader with configuration.
+        ImageLoader.getInstance().init(config.build());
     }
 }
