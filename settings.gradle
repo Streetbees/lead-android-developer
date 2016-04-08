@@ -1,1 +1,1 @@
-include ':marvelcomics'
+include ':marvelcomics', 'marvel-api'

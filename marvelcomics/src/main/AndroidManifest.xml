@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.smorenburg.marvelcomics" >
+    package="me.smorenburg.marvelcomics">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".base.MarvelApplicationBase"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".MarvelComicListViewActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".MarvelComicListViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="fad81808185d3547d052cbe3001d94e377082a39" />
+
+        <activity
+            android:name=".ComicDetailActivity"
+            android:label="@string/title_activity_comic_detail"
+            android:parentActivityName=".base.MarverActivityBase"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.smorenburg.marvelcomics.base.MarverActivityBase" />
         </activity>
     </application>
 
