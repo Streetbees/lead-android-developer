@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_primary">#FBC02D</color>
+    <color name="primary">#FFEB3B</color>
+    <color name="accent">#536DFE</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="text_icons">#212121</color>
+    <color name="divider">#B6B6B6</color>
+
+    <color name="dark_blue">#008</color>
+    <color name="medium_grey">#8c8c8c</color>
+    <color name="light_grey">#d7d5d5</color>
+
+
+    <color name="definition">#a8397a</color>
+
+    <color name="search_button_background">#536DFE</color>
+    <color name="search_button_text_color">#fff</color>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MultiStateView">
+        <attr name="luc_loadingView" format="reference" />
+        <attr name="luc_emptyView" format="reference" />
+        <attr name="luc_errorView" format="reference" />
+        <attr name="luc_viewState" format="enum">
+            <enum name="content" value="0" />
+            <enum name="empty" value="1" />
+            <enum name="loading" value="2" />
+        </attr>
+    </declare-styleable>
+
+</resources>
