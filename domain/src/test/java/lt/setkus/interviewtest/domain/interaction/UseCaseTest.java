@@ -1,12 +1,12 @@
-package lt.setkus.interviewtest.interaction;
+package lt.setkus.interviewtest.domain.interaction;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import lt.setkus.interviewtest.executor.PostExecutionThread;
-import lt.setkus.interviewtest.executor.ThreadExecutor;
+import lt.setkus.interviewtest.domain.executor.PostExecutionThread;
+import lt.setkus.interviewtest.domain.executor.ThreadExecutor;
 import rx.Observable;
 import rx.Subscriber;
 import rx.observers.TestSubscriber;
@@ -56,7 +56,7 @@ public class UseCaseTest {
         assertThat(testSubscriber.isUnsubscribed()).isTrue();
     }
 
-    private static class TestUseCase extends UseCase {
+    private static class TestUseCase extends lt.setkus.interviewtest.domain.interaction.UseCase {
 
         public TestUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
             super(threadExecutor, postExecutionThread);

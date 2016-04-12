@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lt.setkus.interviewtest.executor.ThreadExecutor;
+import lt.setkus.interviewtest.domain.executor.ThreadExecutor;
 
 /**
  * @author <a href="mailto:robertas.setkus@gmail.com">robertas</a>

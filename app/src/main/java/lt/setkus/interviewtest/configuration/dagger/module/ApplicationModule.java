@@ -8,8 +8,8 @@ import dagger.Module;
 import dagger.Provides;
 import lt.setkus.interviewtest.UIThread;
 import lt.setkus.interviewtest.data.executor.JobExecutor;
-import lt.setkus.interviewtest.executor.PostExecutionThread;
-import lt.setkus.interviewtest.executor.ThreadExecutor;
+import lt.setkus.interviewtest.domain.executor.PostExecutionThread;
+import lt.setkus.interviewtest.domain.executor.ThreadExecutor;
 
 /**
  * @author <a href="mailto:robertas.setkus@gmail.com">robertas</a>

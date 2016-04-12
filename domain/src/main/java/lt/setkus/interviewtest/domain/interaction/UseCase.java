@@ -1,7 +1,7 @@
-package lt.setkus.interviewtest.interaction;
+package lt.setkus.interviewtest.domain.interaction;
 
-import lt.setkus.interviewtest.executor.PostExecutionThread;
-import lt.setkus.interviewtest.executor.ThreadExecutor;
+import lt.setkus.interviewtest.domain.executor.PostExecutionThread;
+import lt.setkus.interviewtest.domain.executor.ThreadExecutor;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;

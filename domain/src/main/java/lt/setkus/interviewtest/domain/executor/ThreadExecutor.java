@@ -1,4 +1,4 @@
-package lt.setkus.interviewtest.executor;
+package lt.setkus.interviewtest.domain.executor;
 
 import java.util.concurrent.Executor;
 

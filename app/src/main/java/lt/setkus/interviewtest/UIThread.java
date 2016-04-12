@@ -3,7 +3,7 @@ package lt.setkus.interviewtest;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import lt.setkus.interviewtest.executor.PostExecutionThread;
+import lt.setkus.interviewtest.domain.executor.PostExecutionThread;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 

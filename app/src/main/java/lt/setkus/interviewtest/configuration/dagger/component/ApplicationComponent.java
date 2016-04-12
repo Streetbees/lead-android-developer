@@ -4,8 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import lt.setkus.interviewtest.configuration.dagger.module.ApplicationModule;
-import lt.setkus.interviewtest.executor.PostExecutionThread;
-import lt.setkus.interviewtest.executor.ThreadExecutor;
+import lt.setkus.interviewtest.domain.executor.PostExecutionThread;
+import lt.setkus.interviewtest.domain.executor.ThreadExecutor;
 import lt.setkus.interviewtest.ui.BaseActivity;
 
 /**

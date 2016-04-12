@@ -1,4 +1,4 @@
-package lt.setkus.interviewtest.interaction;
+package lt.setkus.interviewtest.domain.interaction;
 
 import rx.Subscriber;
 
