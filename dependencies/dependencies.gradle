@@ -33,6 +33,7 @@ ext {
     dexmakerVersion = '1.0'
     espressoVersion = '2.0'
     testingSupportLibVersion = '0.1'
+    mockWebserverVersion = okHttpVersion
 
     presentationDependencies = [
             daggerCompiler:         "com.google.dagger:dagger-compiler:${daggerVersion}",
@@ -90,6 +91,6 @@ ext {
             junit:              "junit:junit:${jUnitVersion}",
             assertj:            "org.assertj:assertj-core:${assertJVersion}",
             mockito:            "org.mockito:mockito-core:${mockitoVersion}",
-            robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
+            mockWebserver:      "com.squareup.okhttp:mockwebserver:${mockWebserverVersion}"
     ]
 }
