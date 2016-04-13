@@ -62,6 +62,8 @@ dependencies {
     compile presentationDependencies.rxJava
     compile presentationDependencies.rxAndroid
 
+    compile presentationDependencies.fresco
+
     provided presentationDependencies.javaxAnnotation
 
     androidTestCompile presentationTestDependencies.mockito

@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.List;
 
 import lt.setkus.interviewtest.data.rest.RestClient;
-import lt.setkus.interviewtest.data.rest.response.Comics;
 import lt.setkus.interviewtest.domain.domain.ComicDomain;
 import rx.observers.TestSubscriber;
 
@@ -26,6 +25,9 @@ public class MarvelDataRepositoryTest {
     @Mock
     private Context context;
 
+    @Mock
+    private ApiConfiguration apiConfiguration;
+
     private MockWebServer mockWebServer;
 
     private MarvelDataRepository marvelDataRepository;
@@ -35,7 +37,7 @@ public class MarvelDataRepositoryTest {
         MockitoAnnotations.initMocks(this);
 
         RestClient restClient = RestClient.newInstance(context);
-        marvelDataRepository = new MarvelDataRepository(restClient);
+        marvelDataRepository = new MarvelDataRepository(restClient, apiConfiguration);
 
         mockWebServer = new MockWebServer();
         mockWebServer.start();

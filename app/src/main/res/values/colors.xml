@@ -8,6 +8,7 @@
     <color name="text_icons">#212121</color>
     <color name="divider">#B6B6B6</color>
 
+    <color name="black">#000</color>
     <color name="dark_blue">#008</color>
     <color name="medium_grey">#8c8c8c</color>
     <color name="light_grey">#d7d5d5</color>

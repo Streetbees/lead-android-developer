@@ -2,6 +2,8 @@ package lt.setkus.interviewtest.domain.interaction;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import lt.setkus.interviewtest.domain.repository.MarvelRepository;
 import lt.setkus.interviewtest.domain.domain.ComicDomain;
 import lt.setkus.interviewtest.domain.executor.PostExecutionThread;
@@ -16,6 +18,7 @@ public class GetComicsUseCase extends UseCase<List<ComicDomain>> {
     private final MarvelRepository marvelRepository;
     private Integer offset;
 
+    @Inject
     public GetComicsUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, MarvelRepository marvelRepository) {
         super(threadExecutor, postExecutionThread);
         this.marvelRepository = marvelRepository;

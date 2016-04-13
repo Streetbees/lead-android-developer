@@ -24,6 +24,7 @@ ext {
     retrofitVersion = '2.0.0-beta1'
     androidSupportVersion = '23.1.1'
     androidSupportVersion7 = '22.2.1'
+    frescoVersion = '0.9.0+'
 
     //Testing
     robolectricVersion = '3.0'
@@ -45,7 +46,8 @@ ext {
             javaxAnnotation:        "org.glassfish:javax.annotation:${javaxAnnotationVersion}",
             androidSupport:         "com.android.support:support-v4:${androidSupportVersion}",
             androidSupportV7:       "com.android.support:appcompat-v7:${androidSupportVersion}",
-            androidDesignSupport:   "com.android.support:design:${androidSupportVersion}"
+            androidDesignSupport:   "com.android.support:design:${androidSupportVersion}",
+            fresco:                 "com.facebook.fresco:fresco:${frescoVersion}"
     ]
 
     presentationTestDependencies = [

@@ -12,16 +12,16 @@ public class Result {
 
     @SerializedName("id")
     @Expose
-    private String id;
+    private long id;
     @SerializedName("digitalId")
     @Expose
-    private String digitalId;
+    private long digitalId;
     @SerializedName("title")
     @Expose
     private String title;
     @SerializedName("issueNumber")
     @Expose
-    private String issueNumber;
+    private long issueNumber;
     @SerializedName("variantDescription")
     @Expose
     private String variantDescription;
@@ -51,7 +51,7 @@ public class Result {
     private String format;
     @SerializedName("pageCount")
     @Expose
-    private String pageCount;
+    private long pageCount;
     @SerializedName("textObjects")
     @Expose
     private List<TextObject> textObjects = new ArrayList<TextObject>();
@@ -66,13 +66,13 @@ public class Result {
     private Series series;
     @SerializedName("variants")
     @Expose
-    private List<Variant> variants = new ArrayList<Variant>();
+    private List<Object> variants = new ArrayList<Object>();
     @SerializedName("collections")
     @Expose
-    private List<Collection> collections = new ArrayList<Collection>();
+    private List<Object> collections = new ArrayList<Object>();
     @SerializedName("collectedIssues")
     @Expose
-    private List<CollectedIssue> collectedIssues = new ArrayList<CollectedIssue>();
+    private List<Object> collectedIssues = new ArrayList<Object>();
     @SerializedName("dates")
     @Expose
     private List<Date> dates = new ArrayList<Date>();
@@ -103,7 +103,7 @@ public class Result {
      * @return
      *     The id
      */
-    public String getId() {
+    public long getId() {
         return id;
     }
 
@@ -112,7 +112,7 @@ public class Result {
      * @param id
      *     The id
      */
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -121,7 +121,7 @@ public class Result {
      * @return
      *     The digitalId
      */
-    public String getDigitalId() {
+    public long getDigitalId() {
         return digitalId;
     }
 
@@ -130,7 +130,7 @@ public class Result {
      * @param digitalId
      *     The digitalId
      */
-    public void setDigitalId(String digitalId) {
+    public void setDigitalId(long digitalId) {
         this.digitalId = digitalId;
     }
 
@@ -157,7 +157,7 @@ public class Result {
      * @return
      *     The issueNumber
      */
-    public String getIssueNumber() {
+    public long getIssueNumber() {
         return issueNumber;
     }
 
@@ -166,7 +166,7 @@ public class Result {
      * @param issueNumber
      *     The issueNumber
      */
-    public void setIssueNumber(String issueNumber) {
+    public void setIssueNumber(long issueNumber) {
         this.issueNumber = issueNumber;
     }
 
@@ -337,7 +337,7 @@ public class Result {
      * @return
      *     The pageCount
      */
-    public String getPageCount() {
+    public long getPageCount() {
         return pageCount;
     }
 
@@ -346,7 +346,7 @@ public class Result {
      * @param pageCount
      *     The pageCount
      */
-    public void setPageCount(String pageCount) {
+    public void setPageCount(long pageCount) {
         this.pageCount = pageCount;
     }
 
@@ -427,7 +427,7 @@ public class Result {
      * @return
      *     The variants
      */
-    public List<Variant> getVariants() {
+    public List<Object> getVariants() {
         return variants;
     }
 
@@ -436,7 +436,7 @@ public class Result {
      * @param variants
      *     The variants
      */
-    public void setVariants(List<Variant> variants) {
+    public void setVariants(List<Object> variants) {
         this.variants = variants;
     }
 
@@ -445,7 +445,7 @@ public class Result {
      * @return
      *     The collections
      */
-    public List<Collection> getCollections() {
+    public List<Object> getCollections() {
         return collections;
     }
 
@@ -454,7 +454,7 @@ public class Result {
      * @param collections
      *     The collections
      */
-    public void setCollections(List<Collection> collections) {
+    public void setCollections(List<Object> collections) {
         this.collections = collections;
     }
 
@@ -463,7 +463,7 @@ public class Result {
      * @return
      *     The collectedIssues
      */
-    public List<CollectedIssue> getCollectedIssues() {
+    public List<Object> getCollectedIssues() {
         return collectedIssues;
     }
 
@@ -472,7 +472,7 @@ public class Result {
      * @param collectedIssues
      *     The collectedIssues
      */
-    public void setCollectedIssues(List<CollectedIssue> collectedIssues) {
+    public void setCollectedIssues(List<Object> collectedIssues) {
         this.collectedIssues = collectedIssues;
     }
 

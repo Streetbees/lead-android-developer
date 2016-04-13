@@ -10,7 +10,7 @@ public class Comics {
 
     @SerializedName("code")
     @Expose
-    private String code;
+    private long code;
     @SerializedName("status")
     @Expose
     private String status;
@@ -23,19 +23,19 @@ public class Comics {
     @SerializedName("attributionHTML")
     @Expose
     private String attributionHTML;
-    @SerializedName("data")
-    @Expose
-    private Data data;
     @SerializedName("etag")
     @Expose
     private String etag;
+    @SerializedName("data")
+    @Expose
+    private Data data;
 
     /**
      * 
      * @return
      *     The code
      */
-    public String getCode() {
+    public long getCode() {
         return code;
     }
 
@@ -44,7 +44,7 @@ public class Comics {
      * @param code
      *     The code
      */
-    public void setCode(String code) {
+    public void setCode(long code) {
         this.code = code;
     }
 
@@ -123,24 +123,6 @@ public class Comics {
     /**
      * 
      * @return
-     *     The data
-     */
-    public Data getData() {
-        return data;
-    }
-
-    /**
-     * 
-     * @param data
-     *     The data
-     */
-    public void setData(Data data) {
-        this.data = data;
-    }
-
-    /**
-     * 
-     * @return
      *     The etag
      */
     public String getEtag() {
@@ -154,6 +136,24 @@ public class Comics {
      */
     public void setEtag(String etag) {
         this.etag = etag;
+    }
+
+    /**
+     * 
+     * @return
+     *     The data
+     */
+    public Data getData() {
+        return data;
+    }
+
+    /**
+     * 
+     * @param data
+     *     The data
+     */
+    public void setData(Data data) {
+        this.data = data;
     }
 
 }

@@ -12,16 +12,16 @@ public class Data {
 
     @SerializedName("offset")
     @Expose
-    private String offset;
+    private long offset;
     @SerializedName("limit")
     @Expose
-    private String limit;
+    private long limit;
     @SerializedName("total")
     @Expose
-    private String total;
+    private long total;
     @SerializedName("count")
     @Expose
-    private String count;
+    private long count;
     @SerializedName("results")
     @Expose
     private List<Result> results = new ArrayList<Result>();
@@ -31,7 +31,7 @@ public class Data {
      * @return
      *     The offset
      */
-    public String getOffset() {
+    public long getOffset() {
         return offset;
     }
 
@@ -40,7 +40,7 @@ public class Data {
      * @param offset
      *     The offset
      */
-    public void setOffset(String offset) {
+    public void setOffset(long offset) {
         this.offset = offset;
     }
 
@@ -49,7 +49,7 @@ public class Data {
      * @return
      *     The limit
      */
-    public String getLimit() {
+    public long getLimit() {
         return limit;
     }
 
@@ -58,7 +58,7 @@ public class Data {
      * @param limit
      *     The limit
      */
-    public void setLimit(String limit) {
+    public void setLimit(long limit) {
         this.limit = limit;
     }
 
@@ -67,7 +67,7 @@ public class Data {
      * @return
      *     The total
      */
-    public String getTotal() {
+    public long getTotal() {
         return total;
     }
 
@@ -76,7 +76,7 @@ public class Data {
      * @param total
      *     The total
      */
-    public void setTotal(String total) {
+    public void setTotal(long total) {
         this.total = total;
     }
 
@@ -85,7 +85,7 @@ public class Data {
      * @return
      *     The count
      */
-    public String getCount() {
+    public long getCount() {
         return count;
     }
 
@@ -94,7 +94,7 @@ public class Data {
      * @param count
      *     The count
      */
-    public void setCount(String count) {
+    public void setCount(long count) {
         this.count = count;
     }
 

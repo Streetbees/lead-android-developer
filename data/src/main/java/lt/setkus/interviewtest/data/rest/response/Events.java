@@ -12,23 +12,23 @@ public class Events {
 
     @SerializedName("available")
     @Expose
-    private String available;
-    @SerializedName("returned")
-    @Expose
-    private String returned;
+    private long available;
     @SerializedName("collectionURI")
     @Expose
     private String collectionURI;
     @SerializedName("items")
     @Expose
-    private List<Item___> items = new ArrayList<Item___>();
+    private List<Object> items = new ArrayList<Object>();
+    @SerializedName("returned")
+    @Expose
+    private long returned;
 
     /**
      * 
      * @return
      *     The available
      */
-    public String getAvailable() {
+    public long getAvailable() {
         return available;
     }
 
@@ -37,26 +37,8 @@ public class Events {
      * @param available
      *     The available
      */
-    public void setAvailable(String available) {
+    public void setAvailable(long available) {
         this.available = available;
-    }
-
-    /**
-     * 
-     * @return
-     *     The returned
-     */
-    public String getReturned() {
-        return returned;
-    }
-
-    /**
-     * 
-     * @param returned
-     *     The returned
-     */
-    public void setReturned(String returned) {
-        this.returned = returned;
     }
 
     /**
@@ -82,7 +64,7 @@ public class Events {
      * @return
      *     The items
      */
-    public List<Item___> getItems() {
+    public List<Object> getItems() {
         return items;
     }
 
@@ -91,8 +73,26 @@ public class Events {
      * @param items
      *     The items
      */
-    public void setItems(List<Item___> items) {
+    public void setItems(List<Object> items) {
         this.items = items;
+    }
+
+    /**
+     * 
+     * @return
+     *     The returned
+     */
+    public long getReturned() {
+        return returned;
+    }
+
+    /**
+     * 
+     * @param returned
+     *     The returned
+     */
+    public void setReturned(long returned) {
+        this.returned = returned;
     }
 
 }

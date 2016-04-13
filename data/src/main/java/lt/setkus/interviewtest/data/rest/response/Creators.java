@@ -12,23 +12,23 @@ public class Creators {
 
     @SerializedName("available")
     @Expose
-    private String available;
-    @SerializedName("returned")
-    @Expose
-    private String returned;
+    private long available;
     @SerializedName("collectionURI")
     @Expose
     private String collectionURI;
     @SerializedName("items")
     @Expose
     private List<Item> items = new ArrayList<Item>();
+    @SerializedName("returned")
+    @Expose
+    private long returned;
 
     /**
      * 
      * @return
      *     The available
      */
-    public String getAvailable() {
+    public long getAvailable() {
         return available;
     }
 
@@ -37,26 +37,8 @@ public class Creators {
      * @param available
      *     The available
      */
-    public void setAvailable(String available) {
+    public void setAvailable(long available) {
         this.available = available;
-    }
-
-    /**
-     * 
-     * @return
-     *     The returned
-     */
-    public String getReturned() {
-        return returned;
-    }
-
-    /**
-     * 
-     * @param returned
-     *     The returned
-     */
-    public void setReturned(String returned) {
-        this.returned = returned;
     }
 
     /**
@@ -93,6 +75,24 @@ public class Creators {
      */
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    /**
+     * 
+     * @return
+     *     The returned
+     */
+    public long getReturned() {
+        return returned;
+    }
+
+    /**
+     * 
+     * @param returned
+     *     The returned
+     */
+    public void setReturned(long returned) {
+        this.returned = returned;
     }
 
 }

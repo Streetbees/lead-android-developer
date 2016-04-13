@@ -14,9 +14,9 @@ public class Item_ {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("role")
+    @SerializedName("type")
     @Expose
-    private String role;
+    private String type;
 
     /**
      * 
@@ -57,19 +57,19 @@ public class Item_ {
     /**
      * 
      * @return
-     *     The role
+     *     The type
      */
-    public String getRole() {
-        return role;
+    public String getType() {
+        return type;
     }
 
     /**
      * 
-     * @param role
-     *     The role
+     * @param type
+     *     The type
      */
-    public void setRole(String role) {
-        this.role = role;
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

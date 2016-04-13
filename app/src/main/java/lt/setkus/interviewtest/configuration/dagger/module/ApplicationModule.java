@@ -8,8 +8,12 @@ import dagger.Module;
 import dagger.Provides;
 import lt.setkus.interviewtest.UIThread;
 import lt.setkus.interviewtest.data.executor.JobExecutor;
+import lt.setkus.interviewtest.data.repository.MarvelDataRepository;
+import lt.setkus.interviewtest.data.rest.MarvelApiConfiguration;
+import lt.setkus.interviewtest.data.rest.RestClient;
 import lt.setkus.interviewtest.domain.executor.PostExecutionThread;
 import lt.setkus.interviewtest.domain.executor.ThreadExecutor;
+import lt.setkus.interviewtest.domain.repository.MarvelRepository;
 
 /**
  * @author <a href="mailto:robertas.setkus@gmail.com">robertas</a>
@@ -21,6 +25,18 @@ public class ApplicationModule {
 
     public ApplicationModule(Application application) {
         this.application = application;
+    }
+
+    @Provides
+    @Singleton
+    public RestClient providesRestClient() {
+        return RestClient.newInstance(application.getApplicationContext());
+    }
+
+    @Provides
+    @Singleton
+    public MarvelRepository providesMarvelRepository(RestClient restClient) {
+        return new MarvelDataRepository(restClient);
     }
 
     @Singleton

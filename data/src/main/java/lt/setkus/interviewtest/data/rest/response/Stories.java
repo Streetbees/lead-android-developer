@@ -12,23 +12,23 @@ public class Stories {
 
     @SerializedName("available")
     @Expose
-    private String available;
-    @SerializedName("returned")
-    @Expose
-    private String returned;
+    private long available;
     @SerializedName("collectionURI")
     @Expose
     private String collectionURI;
     @SerializedName("items")
     @Expose
-    private List<Item__> items = new ArrayList<Item__>();
+    private List<Item_> items = new ArrayList<Item_>();
+    @SerializedName("returned")
+    @Expose
+    private long returned;
 
     /**
      * 
      * @return
      *     The available
      */
-    public String getAvailable() {
+    public long getAvailable() {
         return available;
     }
 
@@ -37,26 +37,8 @@ public class Stories {
      * @param available
      *     The available
      */
-    public void setAvailable(String available) {
+    public void setAvailable(long available) {
         this.available = available;
-    }
-
-    /**
-     * 
-     * @return
-     *     The returned
-     */
-    public String getReturned() {
-        return returned;
-    }
-
-    /**
-     * 
-     * @param returned
-     *     The returned
-     */
-    public void setReturned(String returned) {
-        this.returned = returned;
     }
 
     /**
@@ -82,7 +64,7 @@ public class Stories {
      * @return
      *     The items
      */
-    public List<Item__> getItems() {
+    public List<Item_> getItems() {
         return items;
     }
 
@@ -91,8 +73,26 @@ public class Stories {
      * @param items
      *     The items
      */
-    public void setItems(List<Item__> items) {
+    public void setItems(List<Item_> items) {
         this.items = items;
+    }
+
+    /**
+     * 
+     * @return
+     *     The returned
+     */
+    public long getReturned() {
+        return returned;
+    }
+
+    /**
+     * 
+     * @param returned
+     *     The returned
+     */
+    public void setReturned(long returned) {
+        this.returned = returned;
     }
 
 }

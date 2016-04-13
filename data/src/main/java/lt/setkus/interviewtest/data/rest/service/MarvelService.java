@@ -9,6 +9,7 @@ import rx.Observable;
  * @author <a href="mailto:robertas.setkus@gmail.com">robertas</a>
  */
 public interface MarvelService {
+
     @GET("/v1/public/comics")
-    Observable<Comics> getComics(@Query("offset") Integer offset);
+    Observable<Comics> getComics(@Query("offset") Integer offset, @Query("ts") long timestamp,  @Query("apikey") String apiKey, @Query("hash") String hash);
 }
