@@ -1,5 +1,7 @@
 package lt.setkus.interviewtest.data.repository;
 
+import android.util.Log;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +26,8 @@ public class MarvelDataRepository implements MarvelRepository {
     private Func1<Comics, List<ComicDomain>> mapResponseToDomain = source -> {
         List<ComicDomain> comics = new ArrayList<ComicDomain>();
 
+        Log.d(getClass().getSimpleName(), "Mapping objects of size: "+ source.getData().getCount());
+
         if (HttpURLConnection.HTTP_OK == source.getCode() && source.getData().getCount() > 0) {
             for (Result result : source.getData().getResults()) {
                 String thumbPath = result.getThumbnail().getPath() +"."+ result.getThumbnail().getExtension();
@@ -43,8 +47,13 @@ public class MarvelDataRepository implements MarvelRepository {
     @Override
     public Observable<List<ComicDomain>> getComics(Integer offset) {
         MarvelApiConfiguration marvelApiConfiguration = MarvelApiConfiguration.buildConfiguration();
-        return restClient.getMarvelService()
-                .getComics(offset, marvelApiConfiguration.getTimeStamp(), marvelApiConfiguration.getPublicKey(), marvelApiConfiguration.getHash())
-                .map(mapResponseToDomain);
+
+        Observable<Comics> comicsObservable = restClient.getMarvelService()
+                .getComics(offset, marvelApiConfiguration.getTimeStamp(), marvelApiConfiguration.getPublicKey(), marvelApiConfiguration.getHash());
+
+        Log.d(getClass().getSimpleName(), "REST client response is "+ comicsObservable.count());
+
+
+        return comicsObservable.map(mapResponseToDomain);
     }
 }

@@ -8,9 +8,14 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -22,6 +27,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import lt.setkus.interviewtest.app.R;
 import lt.setkus.interviewtest.model.ComicModel;
 import lt.setkus.interviewtest.presenter.ComicsPresenter;
@@ -35,6 +41,12 @@ import lt.setkus.interviewtest.util.BitmapUtils;
  * @author <a href="mailto:robertas.setkus@gmail.com">robertas</a>
  */
 public class ComicsFragment extends BaseFragment implements ComicView {
+
+    interface CameraEventsListener {
+        void dispatchCameraIntent(int itemPosition);
+    }
+
+    private CameraEventsListener cameraEventsListener;
 
     private static final int SPAN_COUNT = 3;
 
@@ -60,12 +72,22 @@ public class ComicsFragment extends BaseFragment implements ComicView {
         comicsPresenter.getComics();
     }
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!(getActivity() instanceof CameraEventsListener)) {
+            throw new IllegalArgumentException(getActivity().getClass().getSimpleName() +" must implement CameraEventsListener");
+        }
+
+        cameraEventsListener = (CameraEventsListener) getActivity();
+        comicsAdapter.setCameraEventListener(cameraEventsListener);
 
         if (null == savedInstanceState) {
             init();
         }
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -94,17 +116,34 @@ public class ComicsFragment extends BaseFragment implements ComicView {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), SPAN_COUNT);
 
         comicsList.setLayoutManager(gridLayoutManager);
-        comicsList.addOnScrollListener(new ComicsRecyclerViewScrollListener(gridLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                comicsPresenter.getComics(totalItemsCount);
-            }
-        });
+//        comicsList.addOnScrollListener(new ComicsRecyclerViewScrollListener(gridLayoutManager) {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount) {
+//                comicsPresenter.getComics(totalItemsCount);
+//            }
+//        });
 
         comicsList.setHasFixedSize(true);
         comicsList.setAdapter(comicsAdapter);
 
         return layout;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_load:
+                comicsPresenter.getComics(20);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -131,9 +170,23 @@ public class ComicsFragment extends BaseFragment implements ComicView {
 
     }
 
+    public void updatePosterAtPosition(Bitmap newBitmap, int positionInAdapter) {
+        View view = comicsList.getChildAt(positionInAdapter);
+        if (null != view) {
+            ViewSwitcher viewSwitcher = (ViewSwitcher) view;
+            SimpleDraweeView drawee = (SimpleDraweeView) viewSwitcher.findViewById(R.id.poster);
+            drawee.setImageBitmap(BitmapUtils.scaleTo(newBitmap, viewSwitcher));
+        }
+    }
+
     static class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ComicViewHolder> {
 
         private List<ComicModel> comicModelList = new ArrayList<ComicModel>();
+        private CameraEventsListener cameraEventListener;
+
+        public void setCameraEventListener(CameraEventsListener cameraEventListener) {
+            this.cameraEventListener = cameraEventListener;
+        }
 
         public void addComics(List<ComicModel> comicModelList) {
             this.comicModelList.addAll(comicModelList);
@@ -150,7 +203,7 @@ public class ComicsFragment extends BaseFragment implements ComicView {
         @Override
         public ComicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemLayout = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comics_list, parent, false);
-            return new ComicViewHolder(itemLayout);
+            return new ComicViewHolder(itemLayout, cameraEventListener);
         }
 
         @Override
@@ -171,15 +224,31 @@ public class ComicsFragment extends BaseFragment implements ComicView {
             @Bind(R.id.title)
             TextView title;
 
-            public ComicViewHolder(View itemView) {
+            @Bind(R.id.camera_button)
+            Button cameraButton;
+
+            ComicModel comicModel;
+
+            final CameraEventsListener cameraEventsListner;
+
+            public ComicViewHolder(View itemView, CameraEventsListener cameraEventsListner) {
                 super(itemView);
+
+                this.cameraEventsListner = cameraEventsListner;
 
                 ButterKnife.bind(this, itemView);
             }
 
             public void setComic(ComicModel comic) {
-                poster.setImageURI(Uri.parse(comic.getThumbnailPath()));
-                title.setText(comic.getTitle());
+                this.comicModel = comic;
+
+                poster.setImageURI(Uri.parse(comicModel.getThumbnailPath()));
+                title.setText(comicModel.getTitle());
+            }
+
+            @OnClick(R.id.camera_button)
+            public void onCameraButtonClick() {
+                cameraEventsListner.dispatchCameraIntent(getAdapterPosition());
             }
         }
     }

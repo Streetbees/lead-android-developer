@@ -2,8 +2,11 @@ package lt.setkus.interviewtest.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
@@ -55,5 +58,15 @@ public final class BitmapUtils {
         tmpOut.copyTo(outputBitmap);
 
         return outputBitmap;
+    }
+
+    public static Bitmap scaleTo(Bitmap bitmap, View targetView) {
+        // Get the dimensions of the View
+        int targetW = targetView.getWidth();
+        int targetH = targetView.getHeight();
+
+        Matrix m = new Matrix();
+        m.setRectToRect(new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight()), new RectF(0, 0, targetW, targetH), Matrix.ScaleToFit.CENTER);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
     }
 }
