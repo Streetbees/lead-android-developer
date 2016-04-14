@@ -23,6 +23,7 @@ import lt.setkus.interviewtest.model.ComicModel;
 import lt.setkus.interviewtest.presenter.ComicsPresenter;
 import lt.setkus.interviewtest.presenter.view.ComicView;
 import lt.setkus.interviewtest.ui.BaseFragment;
+import lt.setkus.interviewtest.ui.widget.ComicsRecyclerViewScrollListener;
 import lt.setkus.interviewtest.ui.widget.ItemClickSupport;
 
 /**
@@ -75,7 +76,16 @@ public class ComicsFragment extends BaseFragment implements ComicView {
             }
         });
 
-        comicsList.setLayoutManager(new GridLayoutManager(getContext(), SPAN_COUNT));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), SPAN_COUNT);
+
+        comicsList.setLayoutManager(gridLayoutManager);
+        comicsList.addOnScrollListener(new ComicsRecyclerViewScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                comicsPresenter.getComics(totalItemsCount);
+            }
+        });
+
         comicsList.setHasFixedSize(true);
         comicsList.setAdapter(comicsAdapter);
 
@@ -84,7 +94,11 @@ public class ComicsFragment extends BaseFragment implements ComicView {
 
     @Override
     public void renderComics(List<ComicModel> comicModels) {
-        comicsAdapter.addComics(comicModels);
+        if (comicsAdapter.getItemCount() == 0) {
+            comicsAdapter.addComics(comicModels);
+        } else {
+            comicsAdapter.append(comicModels);
+        }
     }
 
     @Override
@@ -109,6 +123,13 @@ public class ComicsFragment extends BaseFragment implements ComicView {
         public void addComics(List<ComicModel> comicModelList) {
             this.comicModelList.addAll(comicModelList);
             notifyDataSetChanged();
+        }
+
+        public void append(List<ComicModel> comicModelList) {
+            int currentSize = comicModelList.size();
+            this.comicModelList.addAll(comicModelList);
+
+            notifyItemRangeChanged(currentSize, comicModelList.size() - 1);
         }
 
         @Override
