@@ -1,6 +1,9 @@
 package lt.setkus.interviewtest.ui.main;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -25,6 +29,7 @@ import lt.setkus.interviewtest.presenter.view.ComicView;
 import lt.setkus.interviewtest.ui.BaseFragment;
 import lt.setkus.interviewtest.ui.widget.ComicsRecyclerViewScrollListener;
 import lt.setkus.interviewtest.ui.widget.ItemClickSupport;
+import lt.setkus.interviewtest.util.BitmapUtils;
 
 /**
  * @author <a href="mailto:robertas.setkus@gmail.com">robertas</a>
@@ -72,7 +77,17 @@ public class ComicsFragment extends BaseFragment implements ComicView {
         ItemClickSupport.addTo(comicsList).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClick(RecyclerView parent, View view, int position, long id) {
+                Bitmap copy = BitmapUtils.getBitmapFromView(view.findViewById(R.id.poster));
+                Bitmap blured = BitmapUtils.blur(getContext(), copy);
 
+                View next = ((ViewSwitcher) view).getNextView();
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
+                    next.setBackgroundDrawable(new BitmapDrawable(getResources(), blured));
+                } else {
+                    next.setBackground(new BitmapDrawable(getResources(), blured));
+                }
+
+                ((ViewSwitcher) view).showNext();
             }
         });
 

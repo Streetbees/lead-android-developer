@@ -18,6 +18,9 @@ android {
         testApplicationId globalConfiguration.getAt("testApplicationId")
 
         multiDexEnabled true
+
+        renderscriptTargetApi 18
+        renderscriptSupportModeEnabled true
     }
 
     packagingOptions {

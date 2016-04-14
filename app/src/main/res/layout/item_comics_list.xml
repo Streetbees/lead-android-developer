@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="112dp" android:padding="@dimen/comic_item_padding"
     xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/poster"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        fresco:viewAspectRatio="1.33"/>
+        android:layout_height="match_parent">
 
-    <TextView android:id="@+id/title"
-        android:gravity="center_horizontal"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            fresco:viewAspectRatio="1.33"/>
+
+        <TextView android:id="@+id/title"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold"
+            android:textSize="@dimen/title_text_size"
+            android:shadowColor="@color/black"
+            android:shadowRadius="5"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout android:id="@+id/next"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:layout_gravity="center_vertical"
-        android:textStyle="bold"
-        android:textSize="@dimen/title_text_size"
-        android:shadowColor="@color/black"
-        android:shadowRadius="5"/>
+        android:layout_height="match_parent"/>
 
-</RelativeLayout>
+
+</ViewSwitcher>
