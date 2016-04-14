@@ -21,7 +21,7 @@ public class Result {
     private String title;
     @SerializedName("issueNumber")
     @Expose
-    private long issueNumber;
+    private String issueNumber;
     @SerializedName("variantDescription")
     @Expose
     private String variantDescription;
@@ -157,7 +157,7 @@ public class Result {
      * @return
      *     The issueNumber
      */
-    public long getIssueNumber() {
+    public String getIssueNumber() {
         return issueNumber;
     }
 
@@ -166,7 +166,7 @@ public class Result {
      * @param issueNumber
      *     The issueNumber
      */
-    public void setIssueNumber(long issueNumber) {
+    public void setIssueNumber(String issueNumber) {
         this.issueNumber = issueNumber;
     }
 

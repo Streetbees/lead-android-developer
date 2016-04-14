@@ -32,10 +32,12 @@ import lt.setkus.interviewtest.app.R;
 import lt.setkus.interviewtest.model.ComicModel;
 import lt.setkus.interviewtest.presenter.ComicsPresenter;
 import lt.setkus.interviewtest.presenter.view.ComicView;
+import lt.setkus.interviewtest.ui.BaseActivity;
 import lt.setkus.interviewtest.ui.BaseFragment;
 import lt.setkus.interviewtest.ui.widget.ComicsRecyclerViewScrollListener;
 import lt.setkus.interviewtest.ui.widget.ItemClickSupport;
 import lt.setkus.interviewtest.util.BitmapUtils;
+import lt.setkus.interviewtest.util.ExceptionsUtil;
 
 /**
  * @author <a href="mailto:robertas.setkus@gmail.com">robertas</a>
@@ -167,7 +169,7 @@ public class ComicsFragment extends BaseFragment implements ComicView {
 
     @Override
     public void showError(Throwable throwable) {
-
+        ((BaseActivity) getActivity()).showError(ExceptionsUtil.getMessageByException(throwable));
     }
 
     public void updatePosterAtPosition(Bitmap newBitmap, int positionInAdapter) {
