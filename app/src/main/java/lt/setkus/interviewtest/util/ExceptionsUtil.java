@@ -17,8 +17,11 @@ public final class ExceptionsUtil {
             return R.string.no_internet_access_exception;
         }
 
-        Log.e("UNKNOWN EXCEPTION", throwable.getMessage());
-        throwable.printStackTrace();
+        if (null != throwable) {
+            Log.e("UNKNOWN EXCEPTION", throwable.getMessage());
+            throwable.printStackTrace();
+        }
+
 
         return R.string.unknown_exception;
     }

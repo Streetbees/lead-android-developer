@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -89,22 +88,32 @@ public class ComicsFragment extends BaseFragment implements ComicView {
             init();
         }
 
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup parent, Bundle savedInstanceState) {
-        View layout = layoutInflater.inflate(R.layout.fragment_comics, parent, false);
+        final View layout = layoutInflater.inflate(R.layout.fragment_comics, parent, false);
 
         ButterKnife.bind(this, layout);
 
         ItemClickSupport.addTo(comicsList).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+
+            private ViewSwitcher lastClicked;
+
             @Override
             public void onItemClick(RecyclerView parent, View view, int position, long id) {
+                if (null != lastClicked) {
+                    lastClicked.showNext();
+                }
+
+                lastClicked = (ViewSwitcher) view;
+
                 Bitmap copy = BitmapUtils.getBitmapFromView(view.findViewById(R.id.poster));
                 Bitmap blured = BitmapUtils.blur(getContext(), copy);
 
                 View next = ((ViewSwitcher) view).getNextView();
+
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
                     next.setBackgroundDrawable(new BitmapDrawable(getResources(), blured));
                 } else {
@@ -118,12 +127,12 @@ public class ComicsFragment extends BaseFragment implements ComicView {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), SPAN_COUNT);
 
         comicsList.setLayoutManager(gridLayoutManager);
-//        comicsList.addOnScrollListener(new ComicsRecyclerViewScrollListener(gridLayoutManager) {
-//            @Override
-//            public void onLoadMore(int page, int totalItemsCount) {
-//                comicsPresenter.getComics(totalItemsCount);
-//            }
-//        });
+        comicsList.addOnScrollListener(new ComicsRecyclerViewScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                comicsPresenter.getComics(totalItemsCount);
+            }
+        });
 
         comicsList.setHasFixedSize(true);
         comicsList.setAdapter(comicsAdapter);
@@ -196,10 +205,10 @@ public class ComicsFragment extends BaseFragment implements ComicView {
         }
 
         public void append(List<ComicModel> comicModelList) {
-            int currentSize = comicModelList.size();
+            int currentSize = this.comicModelList.size();
             this.comicModelList.addAll(comicModelList);
 
-            notifyItemRangeChanged(currentSize, comicModelList.size() - 1);
+            notifyItemRangeInserted(currentSize, this.comicModelList.size() - 1);
         }
 
         @Override

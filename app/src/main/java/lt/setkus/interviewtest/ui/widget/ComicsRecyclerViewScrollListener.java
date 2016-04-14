@@ -2,14 +2,18 @@ package lt.setkus.interviewtest.ui.widget;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 /**
  * @author <a href="mailto:robertas.setkus@gmail.com">robertas</a>
  */
 public abstract class ComicsRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
+
+    private static final String TAG = ComicsRecyclerViewScrollListener.class.getSimpleName();
+
     // The minimum amount of items to have below your current scroll position
     // before loading more.
-    private int visibleThreshold = 5;
+    private int visibleThreshold = 10;
     // The current offset index of data you have loaded
     private int currentPage = 0;
     // The total number of items in the dataset after the last load
@@ -34,6 +38,12 @@ public abstract class ComicsRecyclerViewScrollListener extends RecyclerView.OnSc
         int visibleItemCount = view.getChildCount();
         int totalItemCount = gridLayoutManager.getItemCount();
 
+        Log.d(TAG, String.format("firstVisibleItem: %d, visibleItemCount: %d, totalItemCount: %d \n",
+                firstVisibleItem, visibleItemCount, totalItemCount));
+
+
+        Log.d(TAG, String.format("totalItemCount < previousTotalItemCount = %d < %d \n", totalItemCount, previousTotalItemCount));
+
         // If the total item count is zero and the previous isn't, assume the
         // list is invalidated and should be reset back to initial state
         if (totalItemCount < previousTotalItemCount) {
@@ -43,6 +53,10 @@ public abstract class ComicsRecyclerViewScrollListener extends RecyclerView.OnSc
                 this.loading = true;
             }
         }
+
+        Log.d(TAG, String.format("loading && (totalItemCount > previousTotalItemCount) = %b && (%d > %d)\n",
+                loading, totalItemCount, previousTotalItemCount));
+
         // If it’s still loading, we check to see if the dataset count has
         // changed, if so we conclude it has finished loading and update the current page
         // number and total item count.
@@ -50,6 +64,9 @@ public abstract class ComicsRecyclerViewScrollListener extends RecyclerView.OnSc
             loading = false;
             previousTotalItemCount = totalItemCount;
         }
+
+        Log.d(TAG, String.format("!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold) = !%b && (%d - %d) <= (%d + %d)",
+                loading, totalItemCount, visibleItemCount, firstVisibleItem, visibleThreshold));
 
         // If it isn’t currently loading, we check to see if we have breached
         // the visibleThreshold and need to reload more data.
