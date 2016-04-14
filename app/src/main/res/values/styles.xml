@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/dark_primary</item>
+        <item name="colorAccent">@color/accent</item>
+    </style>
+
+    <style name="DefaultPage">
+        <item name="android:paddingLeft">@dimen/activity_padding</item>
+        <item name="android:paddingRight">@dimen/activity_padding</item>
+        <item name="android:paddingTop">@dimen/activity_padding</item>
+    </style>
+
+    <style name="SearchButton">
+        <item name="android:background">@color/search_button_background</item>
+        <item name="android:textColor">@color/search_button_text_color</item>
+    </style>
+
+</resources>
