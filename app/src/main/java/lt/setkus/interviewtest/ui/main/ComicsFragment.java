@@ -82,7 +82,6 @@ public class ComicsFragment extends BaseFragment implements ComicView {
         }
 
         cameraEventsListener = (CameraEventsListener) getActivity();
-        comicsAdapter.setCameraEventListener(cameraEventsListener);
 
         if (null == savedInstanceState) {
             init();
@@ -190,14 +189,9 @@ public class ComicsFragment extends BaseFragment implements ComicView {
         }
     }
 
-    static class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ComicViewHolder> {
+    class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ComicViewHolder> {
 
         private List<ComicModel> comicModelList = new ArrayList<ComicModel>();
-        private CameraEventsListener cameraEventListener;
-
-        public void setCameraEventListener(CameraEventsListener cameraEventListener) {
-            this.cameraEventListener = cameraEventListener;
-        }
 
         public void addComics(List<ComicModel> comicModelList) {
             this.comicModelList.addAll(comicModelList);
@@ -214,7 +208,7 @@ public class ComicsFragment extends BaseFragment implements ComicView {
         @Override
         public ComicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemLayout = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comics_list, parent, false);
-            return new ComicViewHolder(itemLayout, cameraEventListener);
+            return new ComicViewHolder(itemLayout);
         }
 
         @Override
@@ -227,7 +221,7 @@ public class ComicsFragment extends BaseFragment implements ComicView {
             return comicModelList.size();
         }
 
-        static class ComicViewHolder extends RecyclerView.ViewHolder {
+        class ComicViewHolder extends RecyclerView.ViewHolder {
 
             @Bind(R.id.poster)
             SimpleDraweeView poster;
@@ -240,12 +234,8 @@ public class ComicsFragment extends BaseFragment implements ComicView {
 
             ComicModel comicModel;
 
-            final CameraEventsListener cameraEventsListner;
-
-            public ComicViewHolder(View itemView, CameraEventsListener cameraEventsListner) {
+            public ComicViewHolder(View itemView) {
                 super(itemView);
-
-                this.cameraEventsListner = cameraEventsListner;
 
                 ButterKnife.bind(this, itemView);
             }
@@ -259,7 +249,7 @@ public class ComicsFragment extends BaseFragment implements ComicView {
 
             @OnClick(R.id.camera_button)
             public void onCameraButtonClick() {
-                cameraEventsListner.dispatchCameraIntent(getAdapterPosition());
+                ComicsFragment.this.cameraEventsListener.dispatchCameraIntent(getAdapterPosition());
             }
         }
     }

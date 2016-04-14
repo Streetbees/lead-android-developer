@@ -38,3 +38,12 @@
 - Deliverables
     - The forked version of this repo;
     - A video of the app working (a Fabric or Hockeyapp invite from which we can directly run the app will also add a good amount of bonus points).
+
+============================================================================================================================================================
+### Known issues and improvements:
+- Memory consumption increases due to massive data from API. Should allocate less objects or use objects pool to store visible objects.
+- Poor implementation of taking picture with camera and replacing comic poster image. Maybe, usage of EventBus library could solve complex listener pattern.
+- Overused Bitmaps. To save precious memory possibly LRU cache could be implemented to store blured bitmap objects.
+- After taking picture sometimes white blank screen may appear.
+
+(Due lack of time the task is not fully completed! SQLite layer and disk storage could be used store taken pictures. HTTP layer cache could be used on decrease requests to API, and many many many other things may be done...)
