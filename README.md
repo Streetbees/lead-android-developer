@@ -45,5 +45,6 @@
 - Poor implementation of taking picture with camera and replacing comic poster image. Maybe, usage of EventBus library could solve complex listener pattern.
 - Overused Bitmaps. To save precious memory possibly LRU cache could be implemented to store blured bitmap objects.
 - After taking picture sometimes white blank screen may appear.
+- Loading indicator is implemented but it needs a change to be used in context of lazy loading.
 
 (Due lack of time the task is not fully completed! SQLite layer and disk storage could be used store taken pictures. HTTP layer cache could be used on decrease requests to API, and many many many other things may be done...)
