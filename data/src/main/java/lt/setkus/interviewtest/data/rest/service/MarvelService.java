@@ -10,6 +10,6 @@ import rx.Observable;
  */
 public interface MarvelService {
 
-    @GET("/v1/public/comics")
+    @GET("/v1/public/comics?format=comic&orderBy=-onsaleDate")
     Observable<Comics> getComics(@Query("offset") Integer offset, @Query("ts") long timestamp,  @Query("apikey") String apiKey, @Query("hash") String hash);
 }

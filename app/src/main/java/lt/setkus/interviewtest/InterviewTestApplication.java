@@ -2,8 +2,10 @@ package lt.setkus.interviewtest;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import io.fabric.sdk.android.Fabric;
 import lt.setkus.interviewtest.configuration.dagger.component.ApplicationComponent;
 import lt.setkus.interviewtest.configuration.dagger.component.DaggerApplicationComponent;
 import lt.setkus.interviewtest.configuration.dagger.module.ApplicationModule;
@@ -19,6 +21,7 @@ public class InterviewTestApplication extends Application {
                 .applicationModule(new ApplicationModule(this)).build();
 
         Fresco.initialize(this);
+        Fabric.with(this, new Crashlytics());
     }
 
     @Override

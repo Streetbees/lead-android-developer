@@ -7,6 +7,9 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.ndk.CrashlyticsNdk;
+import io.fabric.sdk.android.Fabric;
 import lt.setkus.interviewtest.app.R;
 import lt.setkus.interviewtest.configuration.dagger.HasComponent;
 import lt.setkus.interviewtest.configuration.dagger.component.ComicsComponent;
@@ -50,6 +53,7 @@ public class MainActivity extends BaseActivity implements HasComponent<ComicsCom
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
 
         if (null == savedInstanceState) {
             FragmentManager fragmentManager = getSupportFragmentManager();
