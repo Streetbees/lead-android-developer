@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -102,7 +103,7 @@ public class ComicsFragment extends BaseFragment implements ComicView {
 
             @Override
             public void onItemClick(RecyclerView parent, View view, int position, long id) {
-                if (null != lastClicked) {
+                if (null != lastClicked && R.id.next == lastClicked.getCurrentView().getId()) {
                     lastClicked.showNext();
                 }
 
@@ -213,6 +214,11 @@ public class ComicsFragment extends BaseFragment implements ComicView {
 
         @Override
         public void onBindViewHolder(ComicViewHolder holder, int position) {
+            View view = ((ViewSwitcher) holder.itemView).getCurrentView();
+            if (R.id.next == view.getId()) {
+                ((ViewSwitcher) holder.itemView).showNext();
+            }
+
             holder.setComic(comicModelList.get(position));
         }
 
