@@ -38,3 +38,19 @@
 - Deliverables
     - The forked version of this repo;
     - A video of the app working (a Fabric or Hockeyapp invite from which we can directly run the app will also add a good amount of bonus points).
+
+	
+### Version
+
+- This is as much I could do in a short timeframe, the app is not nearly perfect
+- The actions are the following:
+	- On item long click you can open the camera to change the picture, if you are not logged in with your dropbox account it will ask for that first
+	- On item click, it switches the images between the custom one and the original one
+	- I also added a search mechanism for already loaded comics
+	
+- Issues:
+	- The worker fragment is not handled completely, it may have some bugs like not dismissing
+	- The pairing between the comic and the custom cover is not handled properly, I did something quick because of my time constrains (It should have been a database there)
+	- A preload should be in place, to have everything loaded when the comic screen is displayed 
+	- The search mechanism doesn't act like a filter if you are loading more comics 
+	- ... ... ... ... ...
