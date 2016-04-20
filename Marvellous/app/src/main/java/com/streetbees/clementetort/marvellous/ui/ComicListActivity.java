@@ -84,7 +84,6 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
             accessToken = credentials.getDropboxToken();
 
         AppKeyPair appKeys = new AppKeyPair(BuildConfig.DROPBOX_APP_ID, BuildConfig.DROPBOX_APP_SECRET);
-        // We should supply the token again, but during testing was not working
         AndroidAuthSession session = new AndroidAuthSession(appKeys, accessToken);
         mDBApi = new DropboxAPI<>(session);
     }
@@ -174,7 +173,7 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
     }
 
     private boolean needsLogInDropbox() {
-        return mDBApi.getSession().authenticationSuccessful();
+        return mDBApi.getSession().isLinked();
     }
 
     @Override
