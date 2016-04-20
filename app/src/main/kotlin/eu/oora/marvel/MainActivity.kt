@@ -1,8 +1,12 @@
 package eu.oora.marvel
 
 import android.content.Context
+import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
+import eu.oora.marvel.dependency.component.ActivityComponent
+import eu.oora.marvel.dependency.component.DaggerActivityComponent
+import eu.oora.marvel.dependency.module.ActivityModule
 import eu.oora.marvel.extenstion.bindView
 import eu.oora.marvel.navigation.NavigationScreenChanger
 import eu.oora.marvel.navigation.screen.SplashScreen
@@ -11,6 +15,13 @@ import flow.Flow
 import flow.KeyDispatcher
 
 class MainActivity : AppCompatActivity(), MainLayout {
+  // Activity based component for dependency injection
+  val component: ActivityComponent by lazy {
+    DaggerActivityComponent.builder()
+      .applicationComponent((application as MainApplication).component)
+      .activityModule(ActivityModule(this))
+      .build()
+  }
   // Use Android application root view as main layout holder to reduce view hierarchy
   override val content by bindView<ViewGroup>(android.R.id.content)
 
@@ -25,5 +36,11 @@ class MainActivity : AppCompatActivity(), MainLayout {
       .install()
 
     super.attachBaseContext(context)
+  }
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    component.inject(this)
   }
 }
