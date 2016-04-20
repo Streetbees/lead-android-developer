@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.session.AppKeyPair;
+import com.streetbees.clementetort.marvellous.BuildConfig;
 import com.streetbees.clementetort.marvellous.R;
 import com.streetbees.clementetort.marvellous.marvel.models.Comic;
 import com.streetbees.clementetort.marvellous.marvel.network.MarvelResponse;
@@ -18,7 +22,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class ComicListActivity extends AppCompatActivity implements ComicAdapter.ComicAdapterListener {
+public class ComicListActivity extends AppCompatActivity implements ComicAdapter.ComicAdapterListener, DropboxDialogFragment.DropboxDialogFragmentListener {
     private static final String COMIC = "comic";
     private static final String FOC_DATE = "focDate";
 
@@ -70,6 +74,18 @@ public class ComicListActivity extends AppCompatActivity implements ComicAdapter
 
     @Override
     public void onComicClicked(Comic comic) {
+        DropboxDialogFragment.newInstance().show(getSupportFragmentManager(), "Dropbox dialog");
+    }
 
+    @Override
+    public void onDropboxLogin() {
+        // In the class declaration section:
+        DropboxAPI<AndroidAuthSession> mDBApi;
+
+        AppKeyPair appKeys = new AppKeyPair(BuildConfig.DROPBOX_APP_ID, BuildConfig.DROPBOX_APP_SECRET);
+        AndroidAuthSession session = new AndroidAuthSession(appKeys);
+        mDBApi = new DropboxAPI<AndroidAuthSession>(session);
+
+        mDBApi.getSession().startOAuth2Authentication(this);
     }
 }
