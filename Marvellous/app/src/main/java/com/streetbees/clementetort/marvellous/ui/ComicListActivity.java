@@ -1,18 +1,14 @@
 package com.streetbees.clementetort.marvellous.ui;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -22,6 +18,7 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AppKeyPair;
 import com.streetbees.clementetort.marvellous.BuildConfig;
 import com.streetbees.clementetort.marvellous.R;
+import com.streetbees.clementetort.marvellous.dropbox.SynchronizationService;
 import com.streetbees.clementetort.marvellous.marvel.models.Comic;
 import com.streetbees.clementetort.marvellous.marvel.network.MarvelResponse;
 import com.streetbees.clementetort.marvellous.marvel.network.MarvelService;
@@ -74,6 +71,8 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
         recyclerView.setAdapter(comicAdapter);
         initDropbox();
         loadMoreComics();
+
+        SynchronizationService.synchronize(this);
     }
 
     private void initDropbox() {
