@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -13,6 +14,7 @@ import com.streetbees.clementetort.marvellous.R;
 import com.streetbees.clementetort.marvellous.marvel.models.Comic;
 import com.streetbees.clementetort.marvellous.marvel.network.MarvelResponse;
 import com.streetbees.clementetort.marvellous.marvel.network.MarvelService;
+import com.streetbees.clementetort.marvellous.models.Credentials;
 import com.streetbees.clementetort.marvellous.ui.adapters.ComicAdapter;
 import com.streetbees.clementetort.marvellous.ui.utils.EndlessRecyclerViewScrollListener;
 
@@ -22,7 +24,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class ComicListActivity extends AppCompatActivity implements ComicAdapter.ComicAdapterListener, DropboxDialogFragment.DropboxDialogFragmentListener {
+public class ComicListActivity extends RealmActivity implements ComicAdapter.ComicAdapterListener, DropboxDialogFragment.DropboxDialogFragmentListener {
     private static final String COMIC = "comic";
     private static final String FOC_DATE = "focDate";
 
@@ -30,6 +32,8 @@ public class ComicListActivity extends AppCompatActivity implements ComicAdapter
     RecyclerView recyclerView;
     private ComicAdapter comicAdapter;
     private static final int COMIC_QUANTITY = 20;
+
+    DropboxAPI<AndroidAuthSession> mDBApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +52,53 @@ public class ComicListActivity extends AppCompatActivity implements ComicAdapter
         });
 
         recyclerView.setAdapter(comicAdapter);
-
+        initDropbox();
         loadMoreComics();
     }
+
+    private void initDropbox() {
+        String accessToken = null;
+
+        Credentials credentials = realm.where(Credentials.class).findFirst();
+        if (credentials != null)
+            accessToken = credentials.getDropboxToken();
+
+        AppKeyPair appKeys = new AppKeyPair(BuildConfig.DROPBOX_APP_ID, BuildConfig.DROPBOX_APP_SECRET);
+        // We should supply the token again, but during testing was not working
+        AndroidAuthSession session = new AndroidAuthSession(appKeys, accessToken);
+        session.startOAuth2Authentication(this);
+        mDBApi = new DropboxAPI<>(session);
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        if (mDBApi.getSession().authenticationSuccessful()) {
+            try {
+                // Required to complete auth, sets the access token on the session
+                mDBApi.getSession().finishAuthentication();
+
+                String accessToken = mDBApi.getSession().getOAuth2AccessToken();
+                storeAccessToken(accessToken);
+
+            } catch (IllegalStateException e) {
+                Log.i("DbAuthLog", "Error authenticating", e);
+            }
+        }
+    }
+
+    private void storeAccessToken(String accessToken) {
+        Credentials credentials = realm.where(Credentials.class).findFirst();
+
+        realm.beginTransaction();
+        if (credentials == null)
+            credentials = realm.createObject(Credentials.class);
+
+        credentials.setDropboxToken(accessToken);
+
+        realm.commitTransaction();
+    }
+
 
     private void loadMoreComics() {
         comicAdapter.setLoading();
@@ -74,18 +122,16 @@ public class ComicListActivity extends AppCompatActivity implements ComicAdapter
 
     @Override
     public void onComicClicked(Comic comic) {
-        DropboxDialogFragment.newInstance().show(getSupportFragmentManager(), "Dropbox dialog");
+        if (!needsLogInDropbox())
+            DropboxDialogFragment.newInstance().show(getSupportFragmentManager(), "Dropbox dialog");
+    }
+
+    private boolean needsLogInDropbox() {
+        return mDBApi.getSession().authenticationSuccessful();
     }
 
     @Override
     public void onDropboxLogin() {
-        // In the class declaration section:
-        DropboxAPI<AndroidAuthSession> mDBApi;
-
-        AppKeyPair appKeys = new AppKeyPair(BuildConfig.DROPBOX_APP_ID, BuildConfig.DROPBOX_APP_SECRET);
-        AndroidAuthSession session = new AndroidAuthSession(appKeys);
-        mDBApi = new DropboxAPI<AndroidAuthSession>(session);
-
         mDBApi.getSession().startOAuth2Authentication(this);
     }
 }
