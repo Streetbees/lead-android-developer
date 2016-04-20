@@ -10,11 +10,19 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "MARVEL_KEY", "\"${marvel_client_id}\""
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "MARVEL_URL", "\"https://gateway.marvel.com/\""
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "MARVEL_URL", "\"https://gateway.marvel.com/\""
         }
     }
 
