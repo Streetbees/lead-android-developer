@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
+import eu.oora.marvel.dependency.ComponentProvider
+import eu.oora.marvel.dependency.DependencyService
 import eu.oora.marvel.dependency.component.ActivityComponent
 import eu.oora.marvel.dependency.component.DaggerActivityComponent
 import eu.oora.marvel.dependency.module.ActivityModule
@@ -14,9 +16,9 @@ import eu.oora.marvel.view.MainLayout
 import flow.Flow
 import flow.KeyDispatcher
 
-class MainActivity : AppCompatActivity(), MainLayout {
+class MainActivity : AppCompatActivity(), MainLayout, ComponentProvider<ActivityComponent> {
   // Activity based component for dependency injection
-  val component: ActivityComponent by lazy {
+  override val component: ActivityComponent by lazy {
     DaggerActivityComponent.builder()
       .applicationComponent((application as MainApplication).component)
       .activityModule(ActivityModule(this))
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity(), MainLayout {
     val context = Flow.configure(newBase, this)
       .dispatcher(KeyDispatcher.configure(this, changer).build())
       .defaultKey(SplashScreen())
+      .addServicesFactory(DependencyService(this))
       .install()
 
     super.attachBaseContext(context)
