@@ -50,6 +50,9 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
 
     DropboxAPI<AndroidAuthSession> mDBApi;
     private Comic lastSelectedComic;
+    private Uri imageURI;
+    private String packageName;
+    private boolean wasLoginDropbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +99,10 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
 
                 String accessToken = mDBApi.getSession().getOAuth2AccessToken();
                 storeAccessToken(accessToken);
-
+                if(wasLoginDropbox){
+                    wasLoginDropbox = false;
+                    requestCameraPermissions();
+                }
             } catch (IllegalStateException e) {
                 Log.i("DbAuthLog", "Error authenticating", e);
             }
@@ -147,19 +153,14 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
     }
 
     private void takePicture() {
-        Uri imageURI = generateImageFile(lastSelectedComic.id);
+        imageURI = generateImageFile(lastSelectedComic.id);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageURI);
         // Resolve the package
-        String packageName = takePictureIntent.resolveActivity(getPackageManager()).getPackageName();
+        packageName = takePictureIntent.resolveActivity(getPackageManager()).getPackageName();
         // grant permissions
         grantUriPermission(packageName, imageURI, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-//        List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
-//        for (ResolveInfo resolveInfo : resInfoList) {
-//            String packageName2 = resolveInfo.activityInfo.packageName;
-//            grantUriPermission(packageName2, imageURI, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        }
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
@@ -168,9 +169,7 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            
-        }else{
-
+            revokeUriPermission(imageURI, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
     }
 
@@ -180,6 +179,7 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
 
     @Override
     public void onDropboxLogin() {
+        wasLoginDropbox = true;
         mDBApi.getSession().startOAuth2Authentication(this);
     }
 
