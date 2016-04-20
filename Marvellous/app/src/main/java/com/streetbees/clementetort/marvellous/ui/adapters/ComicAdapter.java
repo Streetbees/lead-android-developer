@@ -4,6 +4,8 @@ package com.streetbees.clementetort.marvellous.ui.adapters;
  * Created by clemente.tort on 20/04/16.
  */
 
+import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import com.streetbees.clementetort.marvellous.R;
 import com.streetbees.clementetort.marvellous.marvel.models.Comic;
 import com.streetbees.clementetort.marvellous.ui.utils.ImageUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +48,7 @@ public class ComicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType){
+        switch (viewType) {
             case COMIC:
                 View comicView = LayoutInflater.from(parent.getContext()).inflate(R.layout.comic_item, parent, false);
                 return new ComicViewHolder(comicView, listener);
@@ -61,7 +64,7 @@ public class ComicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (getItemViewType(position)){
+        switch (getItemViewType(position)) {
             case COMIC:
                 ComicViewHolder comicViewHolder = (ComicViewHolder) holder;
                 comicViewHolder.setItem(comicList.get(position));
@@ -80,10 +83,10 @@ public class ComicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public void setError(String errorMessage){
+    public void setError(String errorMessage) {
         this.errorMessage = errorMessage;
 
-        if(loading||this.error)
+        if (loading || this.error)
             notifyItemChanged(comicList.size());
         else
             notifyItemInserted(comicList.size());
@@ -92,8 +95,8 @@ public class ComicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.error = true;
     }
 
-    public void setLoading(){
-        if(loading||this.error)
+    public void setLoading() {
+        if (loading || this.error)
             notifyItemChanged(comicList.size());
         else
             notifyItemInserted(comicList.size());
@@ -111,9 +114,9 @@ public class ComicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if(position<comicList.size())
+        if (position < comicList.size())
             return COMIC;
-        else if(error)
+        else if (error)
             return ERROR;
         else
             return LOADING;
@@ -148,12 +151,23 @@ public class ComicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public void setItem(Comic comic) {
             this.comic = comic;
             textView.setText(comic.title);
-            ImageUtils.setImage(imageView, comic.thumbnail.getPath(), R.drawable.comic_thumbnail_place_holder);
+            imageView.setImageResource(android.R.color.transparent);
+
+            File file = getFile(comic.id);
+            if (!file.exists())
+                ImageUtils.setImage(imageView, comic.thumbnail.getPath(), R.drawable.comic_thumbnail_place_holder);
+            else
+                imageView.setImageURI(FileProvider.getUriForFile(imageView.getContext(), "com.streetbees.clementetort.marvellous.fileprovider", file));
         }
 
         @Override
         public void onClick(View v) {
             listener.onComicClicked(comic);
+        }
+
+        public File getFile(long id) {
+            File imagePath = new File(textView.getContext().getFilesDir(), "images");
+            return new File(imagePath, String.valueOf(id) + ".jpg");
         }
     }
 
@@ -163,7 +177,7 @@ public class ComicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public static class ErrorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class ErrorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.errorMessage)
         TextView errorMessage;
 
@@ -191,6 +205,7 @@ public class ComicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public interface ComicAdapterListener {
         void onRequestRetry();
+
         void onComicClicked(Comic comic);
     }
 }
