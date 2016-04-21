@@ -84,8 +84,8 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         files.removeChangeListener(this);
+        super.onDestroy();
     }
 
     private void listenDropboxFiles() {
