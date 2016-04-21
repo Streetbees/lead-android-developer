@@ -18,6 +18,7 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AppKeyPair;
 import com.streetbees.clementetort.marvellous.BuildConfig;
 import com.streetbees.clementetort.marvellous.R;
+import com.streetbees.clementetort.marvellous.dropbox.DropboxFile;
 import com.streetbees.clementetort.marvellous.dropbox.SynchronizationService;
 import com.streetbees.clementetort.marvellous.marvel.models.Comic;
 import com.streetbees.clementetort.marvellous.marvel.network.MarvelResponse;
@@ -30,11 +31,13 @@ import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class ComicListActivity extends RealmActivity implements ComicAdapter.ComicAdapterListener, DropboxDialogFragment.DropboxDialogFragmentListener {
+public class ComicListActivity extends RealmActivity implements ComicAdapter.ComicAdapterListener, DropboxDialogFragment.DropboxDialogFragmentListener, RealmChangeListener {
     private static final String COMIC = "comic";
     private static final String FOC_DATE = "focDate";
     private static final int REQUEST_IMAGE_CAPTURE = 0;
@@ -50,6 +53,7 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
     private Uri imageURI;
     private String packageName;
     private boolean wasLoginDropbox;
+    private RealmResults<DropboxFile> files;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +75,19 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
         recyclerView.setAdapter(comicAdapter);
         initDropbox();
         loadMoreComics();
-
+        listenDropboxFiles();
         SynchronizationService.synchronize(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        files.removeChangeListener(this);
+    }
+
+    private void listenDropboxFiles() {
+        files = realm.where(DropboxFile.class).findAll();
+        files.addChangeListener(this);
     }
 
     private void initDropbox() {
@@ -168,6 +183,7 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             revokeUriPermission(imageURI, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            comicAdapter.notifyDataSetChanged();
         }
     }
 
@@ -221,5 +237,10 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
                 }
             }
         }
+    }
+
+    @Override
+    public void onChange() {
+        comicAdapter.notifyDataSetChanged();
     }
 }
