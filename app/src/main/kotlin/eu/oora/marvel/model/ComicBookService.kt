@@ -13,27 +13,29 @@ import javax.inject.Inject
 
 @PerApplicationScope
 class ComicBookService {
+  private val PAGING_LIMIT = 100
+
   @Inject
   lateinit var api: Api
 
   @Inject
   constructor()
 
-  fun getComicBookList(): Observable<ComicBookModel> {
-    return api.getComicsList()
+  fun getComicBookList(page: Int): Observable<ComicBookModel> {
+    return api.getComicsList(PAGING_LIMIT, page * PAGING_LIMIT)
       .flatMap({ response -> response?.toObservable() })
   }
 
   fun Result<GetComicsListResponse>.toObservable(): Observable<ComicBookModel> {
-    val output = ArrayList<ComicBookModel>()
+    val values = ArrayList<ComicBookModel>()
 
     val result = ApiResult(this)
     if (!result.isError) {
       for (entry in result.body.data.results) {
-        output.add(entry.toModel())
+        values.add(entry.toModel())
       }
     }
 
-    return Observable.from(output)
+    return Observable.from(values)
   }
 }

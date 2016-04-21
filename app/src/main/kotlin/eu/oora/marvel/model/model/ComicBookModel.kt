@@ -3,14 +3,14 @@ package eu.oora.marvel.model.model
 class ComicBookModel {
   val id: String
   val title: String
-  val issueNumber: Int
+  val issueNumber: String
   val description: String
   val isbn: String
   val prices: List<PriceModel>
   val thumbnail: String
   val images: List<String>
 
-  constructor(id: String, title: String, issueNumber: Int, description: String, isbn: String, prices: List<PriceModel>, thumbnail: String, images: List<String>) {
+  constructor(id: String, title: String, issueNumber: String, description: String, isbn: String, prices: List<PriceModel>, thumbnail: String, images: List<String>) {
     this.id = id
     this.title = title
     this.issueNumber = issueNumber

@@ -11,11 +11,11 @@ fun PriceRestModel.toModel(): PriceModel {
 }
 
 fun ComicsRestModel.toModel(): ComicBookModel {
-  val thumbnail = thumbnail.path + thumbnail.extension
+  val thumbnail = "${thumbnail.path}.${thumbnail.extension}"
 
   val images = ArrayList<String>()
   for (image in this.images) {
-    images.add(image.path + image.extension)
+    images.add("${image.path}.${image.extension}")
   }
 
   val prices = ArrayList<PriceModel>()

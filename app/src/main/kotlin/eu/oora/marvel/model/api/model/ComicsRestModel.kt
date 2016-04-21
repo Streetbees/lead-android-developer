@@ -4,7 +4,7 @@ class ComicsRestModel {
   val id: String
   val digitalId: String
   val title: String
-  val issueNumber: Int
+  val issueNumber: String
   val variantDescription: String
   val description: String?
   val modified: String
@@ -14,7 +14,7 @@ class ComicsRestModel {
   val ean: String
   val issn: String
   val format: String
-  val pageCount: Int
+  val pageCount: String
   val textObjects: List<TextObjectRestModel>
   val resourceURI: String
   val urls: List<UrlRestModel>
@@ -31,7 +31,7 @@ class ComicsRestModel {
   val stories: Any
   val events: Any
 
-  constructor(id: String, digitalId: String, title: String, issueNumber: Int, variantDescription: String, description: String, modified: String, isbn: String, upc: String, diamondCode: String, ean: String, issn: String, format: String, pageCount: Int, textObjects: List<TextObjectRestModel>, resourceURI: String, urls: List<UrlRestModel>, series: Series, variants: List<Any>, collections: List<Any>, collectedIssues: List<Any>, dates: List<Date>, prices: List<PriceRestModel>, thumbnail: Image, images: List<Image>, creators: List<Any>, characters: List<Any>, stories: List<Any>, events: List<Any>) {
+  constructor(id: String, digitalId: String, title: String, issueNumber: String, variantDescription: String, description: String, modified: String, isbn: String, upc: String, diamondCode: String, ean: String, issn: String, format: String, pageCount: String, textObjects: List<TextObjectRestModel>, resourceURI: String, urls: List<UrlRestModel>, series: Series, variants: List<Any>, collections: List<Any>, collectedIssues: List<Any>, dates: List<Date>, prices: List<PriceRestModel>, thumbnail: Image, images: List<Image>, creators: List<Any>, characters: List<Any>, stories: List<Any>, events: List<Any>) {
     this.id = id
     this.digitalId = digitalId
     this.title = title
