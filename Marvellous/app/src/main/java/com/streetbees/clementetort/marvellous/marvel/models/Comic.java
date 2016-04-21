@@ -18,10 +18,10 @@ public class Comic {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Image {
-        String path;
-        String extension;
+        public String path;
+        public String extension;
 
-        public String getPath() {
+        public String getFullPath() {
             return path + "." + extension;
         }
     }

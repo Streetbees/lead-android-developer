@@ -4,7 +4,6 @@ package com.streetbees.clementetort.marvellous.ui.adapters;
  * Created by clemente.tort on 20/04/16.
  */
 
-import android.net.Uri;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -154,7 +153,7 @@ public class ComicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             File file = getFile(comic.id);
             if (!file.exists())
-                ImageUtils.setImage(imageView, comic.thumbnail.getPath(), R.drawable.comic_thumbnail_place_holder);
+                ImageUtils.setImage(imageView, comic.thumbnail.getFullPath(), R.drawable.comic_thumbnail_place_holder);
             else
                 ImageUtils.setImage(imageView, FileProvider.getUriForFile(imageView.getContext(), "com.streetbees.clementetort.marvellous.fileprovider", file), R.drawable.comic_thumbnail_place_holder);
         }
