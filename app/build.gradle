@@ -1,19 +1,23 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'io.fabric'
 
 buildscript {
   ext.kotlinVersion = '1.0.1-2'
 
   repositories {
     mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
   }
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    classpath 'io.fabric.tools:gradle:1.+'
   }
 }
 
 repositories {
   mavenCentral()
+  maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -28,8 +32,18 @@ android {
     applicationId "eu.oora.marvel"
     minSdkVersion 15
     targetSdkVersion 23
-    versionCode 1
-    versionName "1.0"
+
+    // Fetch the version according to git latest tag and "how far are we from last tag"
+    def longVersionName = "git -C ${rootDir} --work-tree=${projectDir} describe --tags --long".execute().text.trim()
+    def (tag, build, sha) = longVersionName.tokenize('-')
+    def (versionMajor, versionMinor, versionBuild) = tag.replace("v", "").tokenize('.')
+
+    // Set the version name
+    versionCode = versionMajor.toInteger() * 10000 + versionMinor.toInteger() * 100 + versionBuild.toInteger()
+    versionName "$versionMajor.$versionMinor.$versionBuild"
+
+    // debug
+    println("Build version: $versionName-$versionCode")
   }
   buildTypes {
     release {

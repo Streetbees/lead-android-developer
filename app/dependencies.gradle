@@ -29,4 +29,9 @@ dependencies {
 
   // Debug
   compile 'com.jakewharton.timber:timber:4.1.2'
+
+  // Fabric
+  compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+    transitive = true;
+  }
 }

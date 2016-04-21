@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
+import com.crashlytics.android.Crashlytics
 import eu.oora.marvel.dependency.ComponentProvider
 import eu.oora.marvel.dependency.DependencyService
 import eu.oora.marvel.dependency.component.ActivityComponent
@@ -15,6 +16,7 @@ import eu.oora.marvel.navigation.screen.ComicBookListScreen
 import eu.oora.marvel.view.MainLayout
 import flow.Flow
 import flow.KeyDispatcher
+import io.fabric.sdk.android.Fabric
 
 class MainActivity : AppCompatActivity(), MainLayout, ComponentProvider<ActivityComponent> {
   // Activity based component for dependency injection
@@ -43,6 +45,10 @@ class MainActivity : AppCompatActivity(), MainLayout, ComponentProvider<Activity
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+    if (!BuildConfig.DEBUG) {
+      Fabric.with(this, Crashlytics())
+    }
 
     component.inject(this)
   }
