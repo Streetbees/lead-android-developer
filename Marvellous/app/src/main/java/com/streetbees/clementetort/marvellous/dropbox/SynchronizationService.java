@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -151,8 +150,6 @@ public class SynchronizationService extends Service {
             internalFile.setRev(response.rev);
 
             realm.commitTransaction();
-
-            Log.i("DbExampleLog", "The uploaded file's rev is: " + response.rev);
         }
     }
 }
