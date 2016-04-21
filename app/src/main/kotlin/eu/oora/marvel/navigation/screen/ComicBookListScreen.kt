@@ -16,14 +16,18 @@ class ComicBookListScreen : Screen {
   override val name: String = "Comic Book List Screen"
 
   // will be created with init call from flow service
-  lateinit var component: ScreenComponent
+  var component: ScreenComponent? = null
+    private set
 
-  override fun init(parent: ActivityComponent): ScreenComponent {
-    component = DaggerComicBookListScreen_ScreenComponent.builder()
-      .activityComponent(parent)
-      .build()
+  override fun inject(parent: ActivityComponent): ScreenComponent {
+    if (component == null) {
+      component = DaggerComicBookListScreen_ScreenComponent.builder()
+        .activityComponent(parent)
+        .screenModule(ScreenModule())
+        .build()
+    }
 
-    return component
+    return component!!
   }
 
   @PerScreenScope
@@ -40,6 +44,7 @@ class ComicBookListScreen : Screen {
   @Module
   class ScreenModule {
     @Provides
+    @PerScreenScope
     fun provideComicBookListScreenPresenter(service: ComicBookService): ComicBookListScreenPresenter {
       return ComicBookListScreenPresenter(service)
     }

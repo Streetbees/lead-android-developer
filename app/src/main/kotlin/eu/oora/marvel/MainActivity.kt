@@ -46,4 +46,10 @@ class MainActivity : AppCompatActivity(), MainLayout, ComponentProvider<Activity
 
     component.inject(this)
   }
+
+  override fun onBackPressed() {
+    if (!Flow.get(this).goBack()) {
+      super.onBackPressed()
+    }
+  }
 }

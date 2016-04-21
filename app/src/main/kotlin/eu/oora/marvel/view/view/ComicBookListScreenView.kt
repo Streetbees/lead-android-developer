@@ -11,6 +11,7 @@ import eu.oora.marvel.dependency.Injector
 import eu.oora.marvel.extenstion.bindView
 import eu.oora.marvel.model.model.ComicBookModel
 import eu.oora.marvel.navigation.ServicePool
+import eu.oora.marvel.navigation.screen.ComicBookDetailsScreen
 import eu.oora.marvel.presenter.presenter.ComicBookListScreenPresenter
 import eu.oora.marvel.view.adapter.ComicBookAdapter
 import eu.oora.marvel.view.holder.ComicBookListScreenViewHolder
@@ -30,7 +31,10 @@ class ComicBookListScreenView(context: Context, attrs: AttributeSet?) : LinearLa
     val component: Injector<ComicBookListScreenView>? = Flow.getService(ServicePool.INJECT_COMPONENT, context)
     component?.inject(this)
 
-    mComicBookAdapter = ComicBookAdapter(context, { presenter.loadMore() })
+    val onLoadModeData = { presenter.loadMore() }
+    val onModelClicked: (ComicBookModel) -> Unit = { model -> Flow.get(context).set(ComicBookDetailsScreen(model)) }
+
+    mComicBookAdapter = ComicBookAdapter(context, onLoadModeData, onModelClicked)
   }
 
   override fun onFinishInflate() {

@@ -6,5 +6,5 @@ interface Screen {
   val layout: Int
   val name: String
 
-  fun init(parent: ActivityComponent): ActivityComponent
+  fun inject(parent: ActivityComponent): ActivityComponent
 }

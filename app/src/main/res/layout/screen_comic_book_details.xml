@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<eu.oora.marvel.view.view.ComicBookDetailsScreenView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundPrimary"
+    android:orientation="vertical"
+    tools:context="eu.oora.marvel.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp">
+
+            <ImageView
+                android:id="@+id/comic_book_details_actionbar_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="center"
+                android:src="@drawable/ic_arrow_back" />
+
+            <TextView
+                android:id="@+id/comic_book_details_actionbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="16dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/textAlternative"
+                android:textSize="18sp"
+                tools:text="Miracleman by Gaiman and Buckingham: The Silver Age (2016) #2" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/comic_book_details_images"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="16dp"
+                android:background="#f1f1f1"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp"
+                tools:listitem="@layout/view_comic_book_entry" />
+
+            <TextView
+                style="@style/ComicBookDetailLabel"
+                android:text="@string/comic_book_details_title" />
+
+            <TextView
+                android:id="@+id/comic_book_details_title"
+                style="@style/ComicBookDetailValue"
+                tools:text="Miracleman by Gaiman and Buckingham: The Silver Age (2016) #2" />
+
+            <TextView
+                style="@style/ComicBookDetailLabel"
+                android:text="@string/comic_book_details_description" />
+
+            <TextView
+                android:id="@+id/comic_book_details_description"
+                style="@style/ComicBookDetailValue"
+                tools:text="Miracleman by Gaiman and Buckingham: The Silver Age (2016) #2" />
+
+            <TextView
+                style="@style/ComicBookDetailLabel"
+                android:text="@string/comic_book_details_format" />
+
+            <TextView
+                android:id="@+id/comic_book_details_format"
+                style="@style/ComicBookDetailValue"
+                tools:text="Trade Paperback" />
+
+            <TextView
+                style="@style/ComicBookDetailLabel"
+                android:text="@string/comic_book_details_page_count" />
+
+            <TextView
+                android:id="@+id/comic_book_details_page_count"
+                style="@style/ComicBookDetailValue"
+                tools:text="136" />
+
+            <TextView
+                style="@style/ComicBookDetailLabel"
+                android:text="@string/comic_book_details_issue_number" />
+
+            <TextView
+                android:id="@+id/comic_book_details_issue_number"
+                style="@style/ComicBookDetailValue"
+                tools:text="136" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</eu.oora.marvel.view.view.ComicBookDetailsScreenView>

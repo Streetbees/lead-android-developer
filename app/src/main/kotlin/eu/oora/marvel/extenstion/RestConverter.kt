@@ -23,5 +23,5 @@ fun ComicsRestModel.toModel(): ComicBookModel {
     prices.add(price.toModel())
   }
 
-  return ComicBookModel(id, title, issueNumber, description.orEmpty(), isbn, prices, thumbnail, images)
+  return ComicBookModel(id, title, issueNumber, description.orEmpty(), isbn, format, "$pageCount", prices, thumbnail, images)
 }

@@ -3,4 +3,12 @@
 
     <!-- Comic Book List Screen -->
     <string name="comic_book_list_title">Comic Book List</string>
+
+    <!-- Comic Book Details Screen -->
+    <string name="comic_book_details_title">Title:</string>
+    <string name="comic_book_details_description">Description:</string>
+    <string name="comic_book_details_isbn">ISBN:</string>
+    <string name="comic_book_details_format">Format:</string>
+    <string name="comic_book_details_page_count">Page Count:</string>
+    <string name="comic_book_details_issue_number">Issue Number:</string>
 </resources>

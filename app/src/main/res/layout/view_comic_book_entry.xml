@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ComicBookEntry"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:context="eu.oora.marvel.MainActivity">
 
     <ImageView
         android:id="@+id/comic_book_entry_cover"

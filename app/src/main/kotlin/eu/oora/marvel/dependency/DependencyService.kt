@@ -11,7 +11,7 @@ class DependencyService(private val provider: ComponentProvider<ActivityComponen
     val key: Screen = services.getKey()
 
     // create inject component
-    val component = key.init(provider.component)
+    val component = key.inject(provider.component)
 
     // bind inject component for views
     services.bind(ServicePool.INJECT_COMPONENT, component)
