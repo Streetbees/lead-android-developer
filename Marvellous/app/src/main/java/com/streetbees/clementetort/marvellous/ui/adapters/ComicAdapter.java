@@ -151,13 +151,12 @@ public class ComicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public void setItem(Comic comic) {
             this.comic = comic;
             textView.setText(comic.title);
-            imageView.setImageResource(android.R.color.transparent);
 
             File file = getFile(comic.id);
             if (!file.exists())
                 ImageUtils.setImage(imageView, comic.thumbnail.getPath(), R.drawable.comic_thumbnail_place_holder);
             else
-                imageView.setImageURI(FileProvider.getUriForFile(imageView.getContext(), "com.streetbees.clementetort.marvellous.fileprovider", file));
+                ImageUtils.setImage(imageView, FileProvider.getUriForFile(imageView.getContext(), "com.streetbees.clementetort.marvellous.fileprovider", file), R.drawable.comic_thumbnail_place_holder);
         }
 
         @Override
