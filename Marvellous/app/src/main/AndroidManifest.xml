@@ -45,6 +45,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <service android:name=".dropbox.SynchronizationService" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="459291bcda6e58cc8ce00fc05a07ab636437711f" />
     </application>
 
 </manifest>

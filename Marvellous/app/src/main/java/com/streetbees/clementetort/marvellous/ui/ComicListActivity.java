@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AppKeyPair;
@@ -27,6 +28,7 @@ import com.streetbees.clementetort.marvellous.models.Credentials;
 import com.streetbees.clementetort.marvellous.ui.adapters.ComicAdapter;
 import com.streetbees.clementetort.marvellous.ui.utils.EndlessRecyclerViewScrollListener;
 
+import io.fabric.sdk.android.Fabric;
 import java.io.File;
 
 import butterknife.Bind;
@@ -58,6 +60,7 @@ public class ComicListActivity extends RealmActivity implements ComicAdapter.Com
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_comic_list);
         ButterKnife.bind(this);
         // TODO: We must calculate the number of rows based on the width!
