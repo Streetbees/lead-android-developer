@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Marvellous</string>
+    <string name="loading_more_comics">Loading more comics!</string>
+    <string name="generic_error">Couldn\'t load more comics</string>
+    <string name="retry">Retry</string>
+    <string name="login_on_dropbox">To access this feature you must login on Dropbox first.</string>
+</resources>
