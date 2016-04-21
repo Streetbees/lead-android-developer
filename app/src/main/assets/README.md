@@ -1,0 +1,1 @@
+Add file named "api.properties" to this directory with Marvel API public and private keys. Look at "api.properties.example" for details

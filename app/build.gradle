@@ -1,0 +1,84 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'io.fabric'
+
+buildscript {
+  ext.kotlinVersion = '1.0.1-2'
+
+  repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    classpath 'io.fabric.tools:gradle:1.+'
+  }
+}
+
+repositories {
+  mavenCentral()
+  maven { url 'https://maven.fabric.io/public' }
+}
+
+dependencies {
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+}
+
+android {
+  compileSdkVersion 23
+  buildToolsVersion "23.0.2"
+
+  defaultConfig {
+    applicationId "eu.oora.marvel"
+    minSdkVersion 15
+    targetSdkVersion 23
+
+    // Fetch the version according to git latest tag and "how far are we from last tag"
+    def longVersionName = "git -C ${rootDir} --work-tree=${projectDir} describe --tags --long".execute().text.trim()
+    def (tag, build, sha) = longVersionName.tokenize('-')
+    def (versionMajor, versionMinor, versionBuild) = tag.replace("v", "").tokenize('.')
+
+    // Set the version name
+    versionCode = versionMajor.toInteger() * 10000 + versionMinor.toInteger() * 100 + versionBuild.toInteger()
+    versionName "$versionMajor.$versionMinor.$versionBuild"
+
+    // debug
+    println("Build version: $versionName-$versionCode")
+  }
+  signingConfigs {
+    release {
+      def propFile = file('keystore/release.properties')
+      if (propFile.canRead()) {
+        def Properties p = new Properties()
+        p.load(new FileInputStream(propFile))
+        if (p != null && p.containsKey('STORE_FILE') && p.containsKey('STORE_PASSWORD') && p.containsKey('KEY_ALIAS') && p.containsKey('KEY_PASSWORD')) {
+          storeFile file(p['STORE_FILE'])
+          keyAlias p['KEY_ALIAS']
+          storePassword p['STORE_PASSWORD']
+          keyPassword p['KEY_PASSWORD']
+        }
+      }
+    }
+  }
+  buildTypes {
+    debug {
+      applicationIdSuffix '.dev'
+      versionNameSuffix '-dev'
+    }
+    release {
+      signingConfig signingConfigs.release
+      minifyEnabled false
+      shrinkResources false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+  }
+}
+
+kapt {
+  generateStubs = true
+}
+
+apply from: 'dependencies.gradle'

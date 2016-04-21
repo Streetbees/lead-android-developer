@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ComicBookEntry"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="eu.oora.marvel.MainActivity">
+
+    <ImageView
+        android:id="@+id/comic_book_entry_cover"
+        android:layout_width="@dimen/book_list_entry_cover_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="4dp"
+        android:adjustViewBounds="true"
+        android:background="#f1f1f1"
+        android:minHeight="@dimen/book_list_entry_cover_min_height"
+        android:padding="0.5dp" />
+
+</FrameLayout>
