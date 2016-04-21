@@ -34,6 +34,8 @@ class ComicBookService {
       for (entry in result.body.data.results) {
         values.add(entry.toModel())
       }
+    } else {
+      throw result.result.error()
     }
 
     return Observable.from(values)

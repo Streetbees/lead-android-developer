@@ -1,7 +1,9 @@
 package eu.oora.marvel.view.view
 
 import android.content.Context
+import android.content.DialogInterface
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -64,6 +66,14 @@ class ComicBookListScreenView(context: Context, attrs: AttributeSet?) : LinearLa
 
   override fun hideProgressDialog() {
     mRefreshLayout.isRefreshing = false
+  }
+
+  override fun showLoadingError() {
+    AlertDialog.Builder(context)
+      .setMessage(R.string.comic_book_list_error)
+      .setPositiveButton(R.string.comic_book_list_error_retry, { dialogInterface: DialogInterface, i: Int -> presenter.onRefresh() })
+      .create()
+      .show()
   }
 
   override fun onAttachedToWindow() {

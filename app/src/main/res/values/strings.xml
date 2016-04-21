@@ -3,6 +3,9 @@
 
     <!-- Comic Book List Screen -->
     <string name="comic_book_list_title">Comic Book List</string>
+    <string name="comic_book_list_error">Could not connect to the server. Check your internet connection and try again</string>
+    <string name="comic_book_list_error_retry">Retry</string>
+    <string name="comic_book_list_error_cancel">Exit Application</string>
 
     <!-- Comic Book Details Screen -->
     <string name="comic_book_details_title">Title:</string>

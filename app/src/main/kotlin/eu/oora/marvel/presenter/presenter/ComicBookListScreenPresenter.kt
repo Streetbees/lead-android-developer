@@ -4,6 +4,7 @@ import eu.oora.marvel.model.ComicBookService
 import eu.oora.marvel.model.model.ComicBookModel
 import eu.oora.marvel.presenter.ViewPresenter
 import eu.oora.marvel.view.holder.ComicBookListScreenViewHolder
+import rx.Observable
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -32,6 +33,12 @@ class ComicBookListScreenPresenter(private val mComicBookService: ComicBookServi
     mSubscription = mComicBookService.getComicBookList(mPageNumber)
       .subscribeOn(Schedulers.newThread())
       .observeOn(AndroidSchedulers.mainThread())
+      .doOnError {
+        mViewHolder?.showLoadingError()
+      }
+      .onErrorResumeNext {
+        Observable.empty()
+      }
       .doOnNext {
         mComicBookList.add(it)
       }
@@ -46,6 +53,7 @@ class ComicBookListScreenPresenter(private val mComicBookService: ComicBookServi
   fun onRefresh() {
     mPageNumber = 0
     mComicBookList.clear()
+    mViewHolder?.setValues(mComicBookList)
     loadMore()
   }
 

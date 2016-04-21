@@ -6,4 +6,5 @@ interface ComicBookListScreenViewHolder {
   fun setValues(values: List<ComicBookModel>)
   fun showProgressDialog()
   fun hideProgressDialog()
+  fun showLoadingError()
 }

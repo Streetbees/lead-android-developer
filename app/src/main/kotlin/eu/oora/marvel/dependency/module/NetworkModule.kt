@@ -17,9 +17,9 @@ import javax.net.ssl.SSLContext
 @Module
 class NetworkModule {
   private val DISK_CACHE_SIZE: Long = 50 * 1024 * 1024 // 50 MB
-  private val CONNECTION_TIMEOUT: Long = 30
-  private val READ_TIMEOUT: Long = 30
-  private val WRITE_TIMEOUT: Long = 30
+  private val CONNECTION_TIMEOUT: Long = 10
+  private val READ_TIMEOUT: Long = 10
+  private val WRITE_TIMEOUT: Long = 10
 
   @Provides
   @PerApplicationScope

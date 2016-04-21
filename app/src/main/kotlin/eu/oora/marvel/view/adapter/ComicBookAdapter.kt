@@ -15,6 +15,10 @@ class ComicBookAdapter(private val mContext: Context, private val mOnLoadMoreRes
     set(value) {
       field = value
       notifyDataSetChanged()
+
+      if (values.isEmpty() && value.isEmpty()) {
+        mOnLoadMoreResults.invoke()
+      }
     }
 
   override fun onBindViewHolder(holder: ComicBookViewHolder?, position: Int) {
