@@ -110,16 +110,19 @@ public class SynchronizationService extends Service {
 
             try {
                 DropboxAPI.Entry dropboxFile = mDBApi.metadata(java.io.File.separator + filename, 1, null, false, null);
+                if (internalFile != null && dropboxFile != null && dropboxFile.isDeleted) {
+                    // Internal file exists and dropbox not, we will remove to synchronize
+                    file.delete();
+                    realm.beginTransaction();
+                    internalFile.removeFromRealm();
+                    realm.commitTransaction();
+                    return false;
+                }
+
                 // we upload if we have not start tracking the file, or if it is different
                 return internalFile == null || !internalFile.getRev().equals(dropboxFile.rev);
             } catch (DropboxException e) {
                 // Dropbox file does not exists
-                if (internalFile != null) {
-                    // Internal file exists, we will remove to synchronize
-                    file.delete();
-                    internalFile.removeFromRealm();
-                    return false;
-                }
                 return true;
             }
         }
