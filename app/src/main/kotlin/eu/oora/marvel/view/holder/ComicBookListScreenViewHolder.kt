@@ -4,4 +4,6 @@ import eu.oora.marvel.model.model.ComicBookModel
 
 interface ComicBookListScreenViewHolder {
   fun setValues(values: List<ComicBookModel>)
+  fun showProgressDialog()
+  fun hideProgressDialog()
 }

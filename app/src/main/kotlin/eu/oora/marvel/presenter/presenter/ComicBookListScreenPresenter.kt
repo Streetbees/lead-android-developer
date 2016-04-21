@@ -17,10 +17,12 @@ class ComicBookListScreenPresenter(private val mComicBookService: ComicBookServi
   private var mSubscription: Subscription? = null
 
   init {
-    loadMore()
+    onRefresh()
   }
 
   fun loadMore() {
+    mViewHolder?.showProgressDialog()
+
     mSubscription?.let {
       if (!it.isUnsubscribed) {
         return
@@ -34,10 +36,17 @@ class ComicBookListScreenPresenter(private val mComicBookService: ComicBookServi
         mComicBookList.add(it)
       }
       .doOnCompleted {
+        mViewHolder?.hideProgressDialog()
         mViewHolder?.setValues(mComicBookList)
         mPageNumber++
       }
       .subscribe()
+  }
+
+  fun onRefresh() {
+    mPageNumber = 0
+    mComicBookList.clear()
+    loadMore()
   }
 
   override fun onTakeView(view: ComicBookListScreenViewHolder) {

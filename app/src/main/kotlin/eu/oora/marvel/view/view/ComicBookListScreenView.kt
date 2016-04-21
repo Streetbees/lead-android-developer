@@ -51,11 +51,19 @@ class ComicBookListScreenView(context: Context, attrs: AttributeSet?) : LinearLa
     mContentView.setHasFixedSize(true)
     mContentView.adapter = mComicBookAdapter
 
-    mRefreshLayout.setOnRefreshListener { mRefreshLayout.isRefreshing = false }
+    mRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
   }
 
   override fun setValues(values: List<ComicBookModel>) {
     mComicBookAdapter.values = values
+  }
+
+  override fun showProgressDialog() {
+    mRefreshLayout.isRefreshing = true
+  }
+
+  override fun hideProgressDialog() {
+    mRefreshLayout.isRefreshing = false
   }
 
   override fun onAttachedToWindow() {
